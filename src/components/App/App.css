@@ -1,0 +1,8 @@
+a,
+.ui.list .list > .item a.header,
+.ui.list > .item a.header,
+a:hover,
+.ui.list .list > .item a.header:hover,
+.ui.list > .item a.header:hover {
+	color: rgba(0, 0, 0, 0.84) !important;
+}

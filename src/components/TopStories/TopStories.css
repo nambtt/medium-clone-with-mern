@@ -1,0 +1,26 @@
+body .ui.relaxed.list:not(.horizontal) > .item {
+	padding-bottom: 1em;
+}
+
+body .ui.ordered.list > .item:before {
+	border: 1px solid #ddd;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+body .ui.ordered.list > .item .content {
+	margin-left: 35px;
+	padding-bottom: 0.7em;
+	border-bottom: 1px solid #ddd;
+}
+
+body .ui.ordered.list > .item:last-child .content {
+	border-bottom: none;
+}
+
+.story-desc {
+	margin-top: 4px;
+}

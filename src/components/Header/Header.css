@@ -1,0 +1,22 @@
+.header-wrapper {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.site-header {
+	align-items: center;
+}
+.logo {
+	flex: 0 0 100px;
+}
+.logo img {
+	width: 50px;
+}
+
+#signInButton {
+	background: none;
+	border: 1px solid #00ab6b;
+	border-radius: 50em;
+	color: #00ab6b;
+	padding: 0.6em 1.2em;
+	font-size: 1em;
+	font-weight: normal;
+}

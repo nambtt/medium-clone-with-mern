@@ -1,0 +1,8 @@
+.ui.feed .event.story-summary {
+	border-bottom: 1px solid #ddd;
+	padding: 15px 0;
+}
+
+.ui.feed .event.story-summary:last-child {
+	border: none !important;
+}
