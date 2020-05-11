@@ -1,16 +1,32 @@
 import React, { Component } from 'react'
-import { Feed } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Item } from 'semantic-ui-react'
 
 import StorySummary from '../StorySummary/StorySummary'
+import './StorySummaryList.css'
 
-export default class StorySummaryList extends Component {
+import { loadArticles } from '../../redux/actions/articleActions'
+
+class StorySummaryList extends Component {
+
+   componentDidMount() {
+      this.props.loadArticles();
+   }
+
+
    render() {
       return (
-         <Feed size="large">
+         <Item.Group>
             {this.props.articles.map((article) =>
-               <StorySummary key={article._id} article={article} />
+               <StorySummary as={Item} key={article._id} article={article} />
             )}
-         </Feed>
+         </Item.Group>
       )
    }
 }
+
+const mapStateToProps = (state) => {
+   return { articles: state.articleReducer.articles };
+}
+
+export default connect(mapStateToProps, { loadArticles })(StorySummaryList)

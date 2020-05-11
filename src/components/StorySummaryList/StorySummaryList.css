@@ -1,0 +1,7 @@
+body .ui.items > .item {
+	margin: 2em 0;
+}
+
+body .ui.items > .item .content {
+	padding-right: 20px;
+}

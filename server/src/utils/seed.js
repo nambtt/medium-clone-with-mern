@@ -13,10 +13,11 @@ module.exports.seedDb = async () => {
    await User.deleteMany({});
    await utils.deleteAllAvatars(join(__dirname, '../..', process.env.IMAGES_FOLDER_PATH));
 
-   // seed 2 new User, a writer and an audience without own article yet
-   var registerUsersPromises = [...Array(2).keys()].map((index, i) => {
+   // seed users
+   var registerUsersPromises = [...Array(10).keys()].map((index, i) => {
       const user = new User({
          name: faker.name.findName(),
+         profileImageUrl: faker.image.avatar(),
          email: `email${index}@email.com`,
          password: '123456',
       })
@@ -28,14 +29,15 @@ module.exports.seedDb = async () => {
 
 
    // seed articles
-   var articlePromises = [...Array(3).keys()].map(index => {
+   var articlePromises = [...Array(100).keys()].map(index => {
       const article = new Article({
-         title: "nodejs tutorial - part 1",
-         description: faker.lorem.sentences(2),
-         featureImage: faker.image.imageUrl(),
+         title: faker.lorem.sentences(1),
+         description: faker.lorem.sentences(3),
+         featureImage: faker.image.image(),
          content: faker.lorem.paragraphs(),
          clap: utils.randomNumber(200),
-         author: users[0].value.id,
+         author: users.map(u => u.value.id)[utils.randomNumber(10)],
+         createdDate: faker.date.past(),
          comments: [
             {
                author: users[1].value.id,

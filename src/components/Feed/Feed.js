@@ -1,27 +1,21 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 import FeatureAuthor from '../FeatureAuthor/FeatureAuthor'
 
 import { Container } from 'semantic-ui-react'
 import TopStories from '../TopStories/TopStories'
 import StorySummaryList from '../StorySummaryList/StorySummaryList'
 
-import { loadArticles } from '../../redux/actions/articleActions'
-
 import './Feed.css'
 
-class Feed extends Component {
-
-   componentDidMount() {
-      this.props.loadArticles();
-   }
+export default class Feed extends Component {
 
    render() {
       return (
          <Container className="feed-container">
             <div className="ui grid">
                <div className="ten wide column stories">
-                  <StorySummaryList articles={this.props.articles || []} />
+                  <StorySummaryList />
                </div>
                <div className="six wide column">
                   <FeatureAuthor />
@@ -32,9 +26,3 @@ class Feed extends Component {
       )
    }
 }
-
-const mapStateToProps = (state) => {
-   return { articles: state.articleReducer.articles };
-}
-
-export default connect(mapStateToProps, { loadArticles })(Feed)

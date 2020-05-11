@@ -1,26 +1,35 @@
 import React from 'react'
-import { Segment, Header, List } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Segment, Header, List, Item } from 'semantic-ui-react'
+import StorySummaryCompact from '../StorySummaryCompact/StorySummaryCompact'
 
 import './TopStories.css'
 
-export default function TopStories() {
-   return (
-      <Segment>
-         <Header as="h3">Top Stories</Header>
-         <List ordered relaxed className="story-list">
-            <List.Item>
-               <List.Content>
-                  <List.Header className="story-header" as="a">NodeJs</List.Header>
-                  <List.Description className="story-desc" as="a">Nam Bui</List.Description>
-               </List.Content>
-            </List.Item>
-            <List.Item>
-               <List.Content>
-                  <List.Header className="story-header" as="a">ReactJS</List.Header>
-                  <List.Description className="story-desc" as="a">Nam Bui</List.Description>
-               </List.Content>
-            </List.Item>
-         </List>
-      </Segment>
-   )
+import { loadPopularArticles } from '../../redux/actions/articleActions'
+
+class TopStories extends React.Component {
+
+   componentDidMount() {
+      this.props.loadPopularArticles();
+   }
+
+   render() {
+      return (
+         <Segment>
+            <Header as="h3">Top Stories</Header>
+            <Item.Group divided className="story-list">
+               {this.props.articles.map(item =>
+                  <StorySummaryCompact article={item} />
+               )}
+            </Item.Group>
+         </Segment>
+      )
+   }
+
 }
+
+const mapStateToProps = (state) => {
+   return { articles: state.articleReducer.popularArticles };
+}
+
+export default connect(mapStateToProps, { loadPopularArticles })(TopStories)

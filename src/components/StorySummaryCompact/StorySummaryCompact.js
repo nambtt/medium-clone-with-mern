@@ -2,21 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Feed, Header, Image, Icon, Item } from 'semantic-ui-react'
 
-import './StorySummary.css'
+import './StorySummaryCompact.css'
 
 export default ({ article }) => {
    return (
 
       <Item>
          <Item.Content>
-            <Item.Header as='h2'>
+            <Item.Header as='div' className="ui header small">
                <Link to={`articles/${article._id}`}>{article.title}</Link>
-               <Item.Meta>
-                  <Header>
-                     <Header.Subheader>{article.description}</Header.Subheader>
-                  </Header>
-               </Item.Meta>
+
             </Item.Header>
+            <Item.Meta className="shorten-1">
+               {article.description}
+            </Item.Meta>
             <Item.Meta>
                <Header>
                   <Header.Subheader>
@@ -26,14 +25,7 @@ export default ({ article }) => {
                   </Header.Subheader>
                </Header>
             </Item.Meta>
-            <Header size="small">
-               <Image circular src={article.author.profileImageUrl} />
-               <Header.Content>
-                  <Link to={`authors/${article.author._id}`}>{article.author.name}</Link>
-               </Header.Content>
-            </Header>
          </Item.Content>
-         <Item.Image src={article.featureImage} />
       </Item>
 
    )
