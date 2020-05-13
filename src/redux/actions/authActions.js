@@ -1,3 +1,4 @@
+import authApis from '../../apis/authApis'
 import articleApis from '../../apis/articleApis'
 
 import {
@@ -15,13 +16,13 @@ import {
    RESEED_DATABASE_SUCCESS,
    RESEED_DATABASE_FAIL,
 } from '../types';
-import { Types } from 'mongoose';
 
 export const loginUserWithEmail = (formData) => async (dispatch, getState) => {
    dispatch({ type: LOGIN_WITH_EMAIL_LOADING });
 
    try {
-      const response = articleApis.post('/auth/login', formData);
+      const response = await authApis.post('/login', formData);
+
       dispatch({
          type: LOGIN_WITH_EMAIL_SUCCESS,
          payload: { token: response.data.token, me: response.data.me }
@@ -43,7 +44,7 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
          'x-auth-token': token,
       };
 
-      const response = await articleApis.get('/api/users/me', { headers });
+      const response = await articleApis.get('/users/me', { headers });
 
       dispatch({
          type: LOGIN_WITH_OAUTH_SUCCESS,
@@ -58,16 +59,16 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
 };
 
 export const loadMe = () => async (dispatch, getState) => {
-   dispatch({ type: Types.ME_LOADING });
+   dispatch({ type: ME_LOADING });
 
    try {
       const options = attachTokenToHeader(getState);
-      const response = await articleApis.get('/api/users/me', options);
+      const response = await articleApis.get('/users/me', options);
 
-      dispatch({ type: Types.ME_SUCCESS, payload: response.data.me });
+      dispatch({ type: ME_SUCCESS, payload: response.data.me });
    } catch (error) {
       dispatch({
-         type: Types.ME_FAIL,
+         type: ME_FAIL,
          payload: error.response.data.message
       });
    }

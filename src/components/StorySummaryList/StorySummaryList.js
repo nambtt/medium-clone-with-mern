@@ -26,7 +26,7 @@ class StorySummaryList extends Component {
 }
 
 const mapStateToProps = (state) => {
-   return { articles: state.articleReducer.articles };
+   return { articles: state.article.articles };
 }
 
 export default connect(mapStateToProps, { loadArticles })(StorySummaryList)

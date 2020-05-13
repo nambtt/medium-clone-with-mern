@@ -5,8 +5,7 @@ import { Form, Button, Message } from 'semantic-ui-react'
 import { registerUser } from '../../redux/actions/registerActions'
 import { registerSchema } from './validation'
 
-const FormRegister = ({ auth, register, registerUser }) => {
-   console.log(register, auth, registerUser);
+const FormRegister = (props) => {
    const formik = useFormik({
       initialValues: {
          firstName: '',
@@ -16,7 +15,7 @@ const FormRegister = ({ auth, register, registerUser }) => {
       },
       validationSchema: registerSchema,
       onSubmit: (values) => {
-         registerUser(values);
+         props.registerUser(values);
       }
    })
    return (
@@ -29,22 +28,28 @@ const FormRegister = ({ auth, register, registerUser }) => {
          <Form className='attached fluid segment' onSubmit={formik.handleSubmit}>
             <Form.Input name="firstName" label="First name" type="text" placeholder="First name"
                {...formik.getFieldProps('firstName')}
-               {...{}} />
+               {...formik.touched.firstName && formik.errors.firstName ? { error: formik.errors.firstName } : {}} />
             <Form.Input name="lastName" label="Last name" type="text" placeholder="Last name"
-               {...formik.getFieldProps('lastName')} />
+               {...formik.getFieldProps('lastName')}
+               {...formik.touched.lastName && formik.errors.lastName ? { error: formik.errors.lastName } : {}} />
             <Form.Input name="email" label="Email" type="email" placeholder="Email"
-               {...formik.getFieldProps('email')} />
+               {...formik.getFieldProps('email')}
+               {...formik.touched.email && formik.errors.email ? { error: formik.errors.email } : {}} />
             <Form.Input name="password" label="Password" type="password" placeholder="Password"
-               {...formik.getFieldProps('password')} />
+               {...formik.getFieldProps('password')}
+               {...formik.touched.password && formik.errors.password ? { error: formik.errors.password } : {}} />
             <Button type='submit'>Submit</Button>
          </Form>
       </div>
    )
 }
 
-const mapStateToProps = state => ({
-   auth: state.auth,
-   register: state.register
-});
+const mapStateToProps = state => {
+
+   return {
+      auth: state.auth,
+      register: state.register
+   };
+};
 
 export default connect(mapStateToProps, { registerUser })(FormRegister);

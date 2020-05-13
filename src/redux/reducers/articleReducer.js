@@ -1,4 +1,4 @@
-
+import { LOAD_ARTICLES, LOAD_ARTICLES_POPULAR } from '../types'
 const initialState = {
    articles: [],
    popularArticles: [],
@@ -7,9 +7,9 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
    switch (type) {
-      case 'LOAD_ARTICLES':
+      case LOAD_ARTICLES:
          return { ...state, articles: payload };
-      case 'LOAD_ARTICLES_POPULAR':
+      case LOAD_ARTICLES_POPULAR:
          return { ...state, popularArticles: payload };
       default:
          return state;

@@ -1,4 +1,4 @@
-const Types = require('../type')
+const Types = require('../types')
 
 const initialState = {
    token: localStorage.getItem('token'),

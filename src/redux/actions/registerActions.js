@@ -2,7 +2,7 @@ import {
    REGISTER_WITH_EMAIL_LOADING,
    REGISTER_WITH_EMAIL_FAIL,
    REGISTER_WITH_EMAIL_SUCCESS
-} from '../type'
+} from '../types'
 import articleApis from '../../apis/articleApis'
 
 export const registerUser = (formData) => async (dispatch, getState) => {

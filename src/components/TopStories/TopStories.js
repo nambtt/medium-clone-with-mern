@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, List, Item } from 'semantic-ui-react'
+import { Segment, Header, Item } from 'semantic-ui-react'
 import StorySummaryCompact from '../StorySummaryCompact/StorySummaryCompact'
 
 import './TopStories.css'
@@ -29,7 +29,7 @@ class TopStories extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-   return { articles: state.articleReducer.popularArticles };
+   return { articles: state.article.popularArticles };
 }
 
 export default connect(mapStateToProps, { loadPopularArticles })(TopStories)
