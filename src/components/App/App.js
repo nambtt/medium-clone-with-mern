@@ -13,7 +13,7 @@ import { loadMe, logInUserWithOauth, attachTokenToHeader } from '../../redux/act
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
 
 	useEffect(() => {
-		//if (window.location.hash === '#_=_') window.location.hash = '';
+		if (window.location.hash === '#_=_') window.location.hash = '';
 
 		const cookieJwt = Cookies.get('x-auth-cookie');
 		if (cookieJwt) {
