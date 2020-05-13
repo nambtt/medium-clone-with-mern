@@ -21,8 +21,6 @@ export const loginUserWithEmail = (formData) => async (dispatch, getState) => {
    dispatch({ type: LOGIN_WITH_EMAIL_LOADING });
    try {
       const response = await authApis.post('/login', formData);
-
-
       dispatch({
          type: LOGIN_WITH_EMAIL_SUCCESS,
          payload: { token: response.data.token, me: response.data.me }
@@ -30,7 +28,7 @@ export const loginUserWithEmail = (formData) => async (dispatch, getState) => {
    } catch (error) {
       dispatch({
          type: LOGIN_WITH_EMAIL_FAIL,
-         payload: { error: error.response.data.message },
+         payload: { errorMessage: error.response.data.message },
       })
    }
 }

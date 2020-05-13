@@ -15,9 +15,13 @@ mongoose.connect(url, {
    useNewUrlParser: true,
    useUnifiedTopology: true
 })
-   .then(() => {
+   .then(async () => {
       console.log('Connected to mongodb');
-      seedDb();
+
+      const User = require('../src/models/User')
+      if (!await User.exists({})) {
+         await seedDb();
+      }
    })
    .catch(console.log);
 

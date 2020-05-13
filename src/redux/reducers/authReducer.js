@@ -41,8 +41,7 @@ export default (state = initialState, { type, payload }) => {
       case Types.LOGIN_WITH_EMAIL_LOADING:
          return {
             ...state,
-            isLoading: true,
-            error: null
+            isLoading: true
          }
       case Types.LOGIN_WITH_EMAIL_SUCCESS:
       case Types.LOGIN_WITH_OAUTH_SUCCESS:
@@ -56,6 +55,11 @@ export default (state = initialState, { type, payload }) => {
             error: null,
             appLoaded: true
          }
+      case Types.LOGIN_WITH_EMAIL_FAIL:
+         return {
+            ...state,
+            error: payload
+         };
       case Types.LOGOUT_SUCCESS:
          localStorage.removeItem('token');
          return {
