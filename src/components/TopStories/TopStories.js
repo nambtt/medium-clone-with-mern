@@ -19,7 +19,7 @@ class TopStories extends React.Component {
             <Header as="h3">Top Stories</Header>
             <Item.Group divided className="story-list">
                {this.props.articles.map(item =>
-                  <StorySummaryCompact article={item} />
+                  <StorySummaryCompact key={item._id} article={item} />
                )}
             </Item.Group>
          </Segment>

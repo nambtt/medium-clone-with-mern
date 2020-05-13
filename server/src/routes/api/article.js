@@ -1,8 +1,10 @@
-const Article = require('../models/Article')
+const Article = require('../../models/Article')
+const { Router } = require('express')
 
-module.exports = {
+const router = Router();
 
-   getAll: (req, res, next) => {
+router.route('/')
+   .get((req, res, next) => {
       Article.find({})
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
@@ -15,9 +17,10 @@ module.exports = {
 
             next();
          })
-   },
+   })
 
-   feed: (req, res, next) => {
+router.route('/feed')
+   .get((req, res, next) => {
       Article.find({}).sort({ createdDate: -1 }).limit(10)
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
@@ -30,8 +33,10 @@ module.exports = {
 
             next();
          })
-   },
-   popular: (req, res, next) => {
+   })
+
+router.route('/popular')
+   .get((req, res, next) => {
       Article.find({}).sort({ clap: -1 }).limit(4)
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
@@ -44,5 +49,6 @@ module.exports = {
 
             next();
          })
-   }
-}
+   })
+
+module.exports = router;

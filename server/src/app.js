@@ -1,16 +1,16 @@
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const passport = require('passport');
 const cors = require('cors')
 const routes = require('./routes')
 
 const app = express();
-const router = express.Router();
 
 const { seedDb } = require('../src/utils/seed');
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/medium-clone-with-mern"
 
+// DB
 mongoose.connect(url, {
    useNewUrlParser: true,
    useUnifiedTopology: true
@@ -21,6 +21,7 @@ mongoose.connect(url, {
    })
    .catch(console.log);
 
+// CORS
 const whitelist = process.env.CORS_WHITE_LIST.split(',');
 const corsOptions = {
    origin: function (origin, callback) {
@@ -31,12 +32,21 @@ const corsOptions = {
       }
    }
 }
+//app.use(cors(corsOptions));
 
-app.use(cors(corsOptions));
-routes(router);
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', router);
+// PASSPORT
+app.use(passport.initialize());
+require('./services/jwtStrategy');
+require('./services/facebookStrategy');
+require('./services/googleStrategy');
+require('./services/localStrategy');
+
+// ROUTES
+app.use('/', routes);
+
 
 let port = process.env.PORT || 5000;
 app.listen(port, () => {

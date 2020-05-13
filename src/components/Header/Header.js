@@ -5,6 +5,8 @@ import './Header.css'
 import { Link } from 'react-router-dom'
 import { Menu, Image, Label } from 'semantic-ui-react'
 
+import GoogleAuth from '../GoogleAuth/GoogleAuth'
+
 
 export default class Header extends Component {
    render() {
@@ -20,8 +22,9 @@ export default class Header extends Component {
                   </Menu.Item>
                   <Menu.Menu position="right" className="sign-in">
                      <Menu.Item name="signin">
-                        <Label id="signInButton" as="a" to="/" content="Sign in/Sign up" ></Label>
+                        <Link id="signInButton" to="/login">Sign in/Sign up</Link>
                      </Menu.Item>
+                     <GoogleAuth />
                   </Menu.Menu>
                </Menu>
             </div>

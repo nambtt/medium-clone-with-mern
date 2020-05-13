@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css';
 
 import Header from '../Header/Header'
-import Feed from '../Feed/Feed'
+import Feed from '../../pages/Feed/Feed'
+import Login from '../../pages/Login/Login'
 
 
 class App extends React.Component {
@@ -14,8 +15,8 @@ class App extends React.Component {
 			<div>
 				<Router>
 					<div>
-						<Header />
 						<Route path="/" component={Feed} exact></Route>
+						<Route path="/login" component={Login} exact></Route>
 					</div>
 				</Router>
 			</div>

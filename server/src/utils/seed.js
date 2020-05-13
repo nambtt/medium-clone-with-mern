@@ -16,6 +16,7 @@ module.exports.seedDb = async () => {
    // seed users
    var registerUsersPromises = [...Array(10).keys()].map((index, i) => {
       const user = new User({
+         provider: 'email',
          name: faker.name.findName(),
          profileImageUrl: faker.image.avatar(),
          email: `email${index}@email.com`,

@@ -1,0 +1,13 @@
+.btn.login-page {
+	background-color: #3b5998;
+	color: white;
+	width: 200px;
+	display: block;
+}
+
+.btn.google {
+	background-color: #dd4b39;
+	color: white;
+	width: 200px;
+	display: block;
+}

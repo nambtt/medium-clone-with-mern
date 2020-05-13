@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
 
-import articleReducer from './article'
+import articleReducer from './articleReducer'
+import registerReducer from './registerReducer'
+import authReducer from './authReducer'
 
 export default combineReducers({
-   articleReducer
+   articleReducer,
+   authReducer,
+   registerReducer
 })

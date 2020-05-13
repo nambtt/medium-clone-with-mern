@@ -1,4 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Pages
+
+### Home
+
+Home page comprises with article feeding list and most popular article list.
+
+### Article details
+
+Article Details comprises with article title, content, author, social sharing and comment
+
+### Authentication
+
+Allow guests to register user by register and social registers such as facebook and google
+
+### Composing article
+
+Compose an article with medium-style editor.
+
+The self-asked questions:
+
+- Redux or react hook useReducer
+- Login, authentication with socials and local auth
+
+<!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -65,4 +88,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `yarn build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
