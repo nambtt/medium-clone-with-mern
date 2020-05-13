@@ -15,9 +15,10 @@ router.route('/register')
          return res.status(422).send({ message: error.details[0].message });
       }
 
-      const { email, password, name } = req.body;
+      const { email, password, firstName, lastName } = req.body;
+      const name = `${firstName} ${lastName}`;
 
-      const existingUser = User.findOne({ email });
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
          return res.status(422).send({ message: "Email is in use" });
       }
@@ -31,7 +32,10 @@ router.route('/register')
       });
 
       await newUser.registerAsync(newUser);
-      res.json({ success: true, message: "Register success." });
+      //res.json({ success: true, message: "Register success." });
+
+      res.req.body = { email, password };
+      res.redirect(307, '/auth/login');
 
       next();
    })

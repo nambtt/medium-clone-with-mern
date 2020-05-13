@@ -1,16 +1,21 @@
 import {
    REGISTER_WITH_EMAIL_LOADING,
    REGISTER_WITH_EMAIL_FAIL,
-   REGISTER_WITH_EMAIL_SUCCESS
+   REGISTER_WITH_EMAIL_SUCCESS,
+   LOGIN_WITH_EMAIL_SUCCESS
 } from '../types'
-import articleApis from '../../apis/articleApis'
+import authApis from '../../apis/authApis'
 
 export const registerUser = (formData) => async (dispatch, getState) => {
    dispatch({ type: REGISTER_WITH_EMAIL_LOADING });
 
    try {
-      await articleApis.post('/auth/register', formData);
+      const response = await authApis.post('/register', formData);
       dispatch({ type: REGISTER_WITH_EMAIL_SUCCESS });
+      dispatch({
+         type: LOGIN_WITH_EMAIL_SUCCESS,
+         payload: { token: response.data.token, me: response.data.me }
+      })
    } catch (error) {
       dispatch({ type: REGISTER_WITH_EMAIL_FAIL, payload: { error: error?.response?.data.message || error.message } });
    }

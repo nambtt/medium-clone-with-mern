@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Form, Button, Message } from 'semantic-ui-react'
 import { registerUser } from '../../redux/actions/registerActions'
@@ -18,6 +19,9 @@ const FormRegister = (props) => {
          props.registerUser(values);
       }
    })
+
+   if (props.auth.isAuthenticated) return <Redirect to="/" />;
+
    return (
       <div>
          <Message
@@ -26,6 +30,9 @@ const FormRegister = (props) => {
             content='Fill out the form below to sign-up for a new account'
          />
          <Form className='attached fluid segment' onSubmit={formik.handleSubmit}>
+            <Message negative style={{ display: (props.register.error ? "block" : "none") }}>
+               <p>{props.register.error && props.register.error}</p>
+            </Message>
             <Form.Input name="firstName" label="First name" type="text" placeholder="First name"
                {...formik.getFieldProps('firstName')}
                {...formik.touched.firstName && formik.errors.firstName ? { error: formik.errors.firstName } : {}} />
