@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Dropdown, Image, } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
+import { logOut } from '../../../redux/actions/authActions'
 
-const AuthenticationButton = ({ auth }) => {
+const AuthenticationButton = ({ auth, logOut }) => {
+
+   const [signedOut, setSignedOut] = useState(false);
+
+   useEffect(() => {
+      if (signedOut) {
+         logOut();
+      }
+   }, [signedOut, logOut])
 
    if (!auth.isAuthenticated || !auth.me) {
       return (
@@ -40,7 +49,7 @@ const AuthenticationButton = ({ auth }) => {
    ]
 
    return (
-      <Dropdown trigger={trigger} options={options} />
+      <Dropdown trigger={trigger} options={options} onChange={() => setSignedOut(true)} />
    )
 
 }
@@ -51,4 +60,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default connect(mapStateToProps, {})(AuthenticationButton)
+export default connect(mapStateToProps, { logOut })(AuthenticationButton)

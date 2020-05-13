@@ -43,5 +43,9 @@ router.route('/login')
       res.json({ token, me });
       next();
    })
-
+router.route('/logout')
+   .get((req, res) => {
+      req.logout();
+      res.send(false);
+   })
 module.exports = router;

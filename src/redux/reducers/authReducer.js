@@ -56,6 +56,17 @@ export default (state = initialState, { type, payload }) => {
             error: null,
             appLoaded: true
          }
+      case Types.LOGOUT_SUCCESS:
+         localStorage.removeItem('token');
+         return {
+            ...state,
+            isAuthenticated: false,
+            isLoading: false,
+            token: null,
+            me: null,
+            error: null,
+            appLoaded: false
+         }
       default: return state;
    }
 
