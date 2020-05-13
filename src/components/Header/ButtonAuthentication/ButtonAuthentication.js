@@ -34,7 +34,7 @@ const AuthenticationButton = ({ auth, logOut }) => {
          key: 'user',
          text: (
             <span>
-               Signed in as <strong>Bob Smith</strong>
+               Signed in as <strong>{auth.me.name}</strong>
             </span>
          ),
          disabled: true,
