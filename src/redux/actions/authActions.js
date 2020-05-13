@@ -19,9 +19,9 @@ import {
 
 export const loginUserWithEmail = (formData) => async (dispatch, getState) => {
    dispatch({ type: LOGIN_WITH_EMAIL_LOADING });
-
    try {
       const response = await authApis.post('/login', formData);
+
 
       dispatch({
          type: LOGIN_WITH_EMAIL_SUCCESS,
@@ -59,13 +59,14 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
 };
 
 export const loadMe = () => async (dispatch, getState) => {
+
    dispatch({ type: ME_LOADING });
 
    try {
       const options = attachTokenToHeader(getState);
       const response = await articleApis.get('/users/me', options);
 
-      dispatch({ type: ME_SUCCESS, payload: response.data.me });
+      dispatch({ type: ME_SUCCESS, payload: { me: response.data.me } });
    } catch (error) {
       dispatch({
          type: ME_FAIL,

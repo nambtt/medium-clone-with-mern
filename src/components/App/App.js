@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import './App.css';
-
-import Header from '../Header/Header'
 import Feed from '../../pages/Feed/Feed'
-import Login from '../../pages/Login/Login'
+
+import { loadMe } from '../../redux/actions/authActions'
 
 
-class App extends React.Component {
-	render() {
-		return (
-			<div>
-				<Router>
-					<div>
-						<Route path="/" component={Feed} exact></Route>
-						<Route path="/login" component={Login} exact></Route>
-					</div>
-				</Router>
-			</div>
-		);
-	}
+const App = ({ auth, loadMe }) => {
+
+	useEffect(() => {
+		if (!auth.isAuthenticated && auth.token) {
+			loadMe();
+		}
+	}, [auth.isAuthenticated, auth.token, loadMe])
+
+	return (
+		<div>
+			<Router>
+				<div>
+					<Route path="/" component={Feed} exact></Route>
+				</div>
+			</Router>
+		</div>
+	);
 
 }
-export default App;
+const mapStateToProps = (state) => {
+	return { auth: state.auth };
+}
+export default connect(mapStateToProps, { loadMe })(App);

@@ -6,7 +6,7 @@ import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
 
 const AuthenticationButton = ({ auth }) => {
 
-   if (!auth.isAuthenticated) {
+   if (!auth.isAuthenticated || !auth.me) {
       return (
          <>
             <ModalAuthentication trigger={<Link id="signInButton">Sign in/Sign up</Link>} />
@@ -16,7 +16,7 @@ const AuthenticationButton = ({ auth }) => {
 
    const trigger = (
       <span>
-         <Image avatar src={auth.me.avatar} /> {auth.me.name}
+         <Image avatar src={auth.me.profileImageUrl} /> {auth.me.name}
       </span>
    )
 
