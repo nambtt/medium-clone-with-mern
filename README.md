@@ -20,6 +20,7 @@ The self-asked questions:
 
 - Redux or react hook useReducer
 - Login, authentication with socials and local auth
+- Is is possible that after register an account, the website will login automatically
 
 <!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

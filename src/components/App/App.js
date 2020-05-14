@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import './App.css';
 import Feed from '../../pages/Feed/Feed'
+import NewStory from '../../pages/NewStory/NewStory'
 
 import { loadMe, logInUserWithOauth, attachTokenToHeader } from '../../redux/actions/authActions'
 
@@ -34,6 +35,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
 			<Router>
 				<div>
 					<Route path="/" component={Feed} exact></Route>
+					<Route path="/new-story" component={NewStory} exact></Route>
 				</div>
 			</Router>
 		</div>

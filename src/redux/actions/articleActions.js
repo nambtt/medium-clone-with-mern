@@ -1,5 +1,9 @@
 import articleApis from '../../apis/articleApis'
-import { LOAD_ARTICLES, LOAD_ARTICLES_POPULAR } from '../types'
+import { LOAD_ARTICLES, 
+   LOAD_ARTICLES_POPULAR,
+   ADD_NEW_ARTICLE_LOADING,
+   ADD_NEW_ARTICLE_SUCCESS,
+   ADD_NEW_ARTICLE_FAIL } from '../types'
 
 export const loadArticles = () => async (dispatch) => {
    const response = await articleApis.get('/articles/feed');
@@ -10,4 +14,15 @@ export const loadPopularArticles = () => async (dispatch) => {
    const response = await articleApis.get('/articles/popular');
 
    dispatch({ type: LOAD_ARTICLES_POPULAR, payload: response.data });
+}
+export const addNewArticle = (article) => async (dispatch) => {
+   dispatch({ type: ADD_NEW_ARTICLE_LOADING });
+   try {
+
+      const response = await articleApis.post('/articles', article);
+
+      dispatch({ type: ADD_NEW_ARTICLE_SUCCESS, payload: response.data });
+   } catch (error) {
+      dispatch({ type: ADD_NEW_ARTICLE_FAIL });
+   }
 }

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const opts = { toJSON: { virtuals: true } };
+const opts = { toJSON: { virtuals: true }, timestamps: true };
 const articleSchema = new mongoose.Schema({
    title: {
       type: String,
@@ -33,9 +33,12 @@ articleSchema.virtual('displayedDate').get(function () {
       "July", "August", "September", "October", "November", "December"
    ];
 
-   const year = this.createdDate.getYear();
-   const month = monthNames[this.createdDate.getMonth()].substr(0, 3);
-   const date = this.createdDate.getDate();
+   const createdDate = this.createdDate || this.createdAt;
+   if (!createdDate) return "";
+
+   const year = createdDate.getYear();
+   const month = monthNames[createdDate.getMonth()].substr(0, 3);
+   const date = createdDate.getDate();
    let result = `${month} ${date}`;
    if (year !== new Date().getYear()) {
       result += `, ${year}`;

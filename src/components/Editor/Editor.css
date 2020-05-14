@@ -1,0 +1,22 @@
+.editor-section {
+	margin: 20px auto 0;
+	max-width: 740px;
+	padding: 0 50px;
+}
+
+.editor-title {
+	font-size: 36px;
+	border: none;
+	outline: none;
+	font-weight: 600;
+	width: 100%;
+}
+
+.picture-upload {
+	cursor: pointer;
+	position: relative;
+	left: -50px;
+}
+#image-preview {
+	width: 100%;
+}

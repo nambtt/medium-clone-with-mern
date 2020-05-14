@@ -15,6 +15,7 @@
     "joi": "^14.3.1",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
+    "medium-editor": "^5.23.3",
     "mongoose": "^5.9.13",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",

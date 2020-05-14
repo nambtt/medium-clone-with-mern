@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Item } from 'semantic-ui-react'
 
@@ -7,26 +7,23 @@ import './StorySummaryList.css'
 
 import { loadArticles } from '../../redux/actions/articleActions'
 
-class StorySummaryList extends Component {
+const StorySummaryList = ({ articles, loadArticles }) => {
 
-   componentDidMount() {
-      this.props.loadArticles();
-   }
+   useEffect(() => {
+      loadArticles();
+   }, [loadArticles]);
 
-
-   render() {
-      return (
-         <Item.Group>
-            {this.props.articles.map((article) =>
-               <StorySummary as={Item} key={article._id} article={article} />
-            )}
-         </Item.Group>
-      )
-   }
+   return (
+      <Item.Group>
+         {articles.map((article) =>
+            <StorySummary as={Item} key={article._id} article={article} />
+         )}
+      </Item.Group>
+   )
 }
 
 const mapStateToProps = (state) => {
-   return { articles: state.article.articles };
+   return { articles: state.articleListing.articles };
 }
 
 export default connect(mapStateToProps, { loadArticles })(StorySummaryList)

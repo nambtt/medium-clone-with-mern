@@ -29,7 +29,7 @@ class TopStories extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-   return { articles: state.article.popularArticles };
+   return { articles: state.articleListing.popularArticles };
 }
 
 export default connect(mapStateToProps, { loadPopularArticles })(TopStories)

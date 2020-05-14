@@ -12,6 +12,10 @@ code {
 		monospace;
 }
 
+.hidden {
+	display: none;
+}
+
 .mid-dot-divider {
 	padding-right: 0.3em;
 	padding-left: 0.3em;

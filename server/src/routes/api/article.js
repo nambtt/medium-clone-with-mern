@@ -1,5 +1,9 @@
-const Article = require('../../models/Article')
+
+const Joi = require('joi')
 const { Router } = require('express')
+const Article = require('../../models/Article')
+const requireJwtAuth = require('../../middlewares/requireJwtAuth')
+const { newArticleSchema } = require('../../services/validators')
 
 const router = Router();
 
@@ -17,6 +21,31 @@ router.route('/')
 
             next();
          })
+   })
+   .post(requireJwtAuth, async (req, res, next) => {
+      const { error } = Joi.validate(req.body, newArticleSchema);
+      if (error) {
+         return res.stats(422).send({ message: error.details[0].message });
+      }
+
+      const article = new Article({
+         title: req.body.title,
+         content: req.body.content,
+         author: req.body.authorId
+      });
+      const newArticle = await article.save();
+      res.send(newArticle);
+   })
+   .put(requireJwtAuth, async (req, res, next) => {
+      if (req.user.id !== req.body.authorId) {
+         return res.status(422).send({ message: "Invalid credential to update this article." });
+      }
+      var dbArticle = await Article.findById(req.body._id );
+      if (!dbArticle) {
+         return res.status(422).send({ message: "This article is not found" });
+      }
+
+      dbArticle.
    })
 
 router.route('/feed')
