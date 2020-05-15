@@ -16,6 +16,7 @@ module.exports = {
    newArticleSchema: Joi.object().keys({
       title: Joi.string(),
       content: Joi.string(),
-      authorId: Joi.string()
+      authorId: Joi.string(),
+      featureImage: Joi.string()
    }),
 }

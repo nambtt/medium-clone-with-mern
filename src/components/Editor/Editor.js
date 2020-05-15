@@ -1,21 +1,31 @@
-import React, { useRef, useState, useLayoutEffect } from 'react'
-import { Icon, Segment } from 'semantic-ui-react'
+import React, { useRef, useState } from 'react'
+import { Icon, Segment, Modal, Button, Header, Placeholder } from 'semantic-ui-react'
 import MediumEditor from 'medium-editor'
-import { Image as CldImage } from 'cloudinary-react';
 import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
 import './Editor.css'
 import EditorHeader from './EditorHeader/EditorHeader';
 import { connect } from 'react-redux';
-import { addNewArticle, uploadFeatureImage } from '../../redux/actions/articleActions'
+import { addNewArticle, uploadFeatureImage, resetPublishStatue } from '../../redux/actions/articleEditorActions'
 
-const Editor = ({ addNewArticle, uploadFeatureImage, authorId, featureImageUrl }) => {
+const Editor = ({
+   addNewArticle,
+   uploadFeatureImage,
+   resetPublishStatue,
+
+   authorId,
+   featureImageIsUploading,
+   featureImageUrl,
+   publishStatus }) => {
 
    const fileRef = useRef();
 
    const [content, setContent] = useState("");
    const [title, setTitle] = useState("");
+   const [isErrorOnPublishingWhileUploadingImage, setIsErrorOnPublishingWhileUploadingImage] = useState(false)
 
    const previewImg = () => {
+      if (!fileRef.current.files.length)
+         return;
       const file = fileRef.current.files[0];
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -50,21 +60,29 @@ const Editor = ({ addNewArticle, uploadFeatureImage, authorId, featureImageUrl }
    });
 
    editor.subscribe('editableInput', () => {
+      resetPublishStatue();
       setContent(editor.getContent(0));
    })
 
    const publish = () => {
+      if (featureImageIsUploading) {
+         setIsErrorOnPublishingWhileUploadingImage(true);
+         return;
+      }
       addNewArticle({ title, content, authorId, featureImage: featureImageUrl });
    }
 
    return (
       <div>
          <div className="editor-section">
-            <EditorHeader publish={publish} />
+            {/* Header Bar */}
+            <EditorHeader publish={publish} publishStatus={publishStatus} />
+            {/* Title */}
             <textarea
                className="editor-title"
                id="editor-title"
-               placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+               placeholder="Title" value={title} onChange={(e) => { resetPublishStatue(); setTitle(e.target.value) }} />
+            {/* Upload Feature Image Button */}
             <span className="picture-upload" title="Upload a feature image" onClick={() => fileRef.current.click()}>
                <Icon name="camera" size="big"></Icon>
                <div class="hidden">
@@ -76,17 +94,32 @@ const Editor = ({ addNewArticle, uploadFeatureImage, authorId, featureImageUrl }
                   />
                </div>
             </span>
+            {/* Feature Image Preview */}
+            <div>
+               <Placeholder style={{ height: 150, width: 150, display: (featureImageIsUploading ? "block" : "none") }}>
+                  <Placeholder.Image />
+               </Placeholder>
+               <img src="" alt="" id="image-preview" style={{ display: (featureImageIsUploading ? "none" : "block") }} />
+            </div>
 
-            <img src="" alt="" id="image-preview" />
-            {/* <CldImage cloudName="dcvhx5qfv" publicId="Medinum-clone-with-mern" width="300" crop="scale" /> */}
-
+            {/* Article Content */}
             <Segment className="editor-content">
                <textarea className="editor" />
             </Segment>
-            {/* <div style={{ float: "left", clear: "both" }}
-               ref={messageEndRef}>
-            </div> */}
          </div>
+         <Modal open={isErrorOnPublishingWhileUploadingImage} basic size='small'>
+            <Header icon='archive' content='Please wait...' />
+            <Modal.Content>
+               <p>
+                  Your feature image is being uploaded, wait a few moment later.
+               </p>
+            </Modal.Content>
+            <Modal.Actions>
+               <Button color='green' inverted onClick={() => setIsErrorOnPublishingWhileUploadingImage(false)}>
+                  <Icon name='checkmark' /> Ok
+               </Button>
+            </Modal.Actions>
+         </Modal>
       </div>
    )
 }
@@ -94,8 +127,10 @@ const Editor = ({ addNewArticle, uploadFeatureImage, authorId, featureImageUrl }
 const mapStateToProps = (state) => {
    return {
       authorId: state.auth.me?.id,
-      featureImageUrl: state.article.featureImageUrl
+      featureImageUrl: state.articleEditor.featureImageUrl,
+      featureImageIsUploading: state.articleEditor.featureImageIsUploading,
+      publishStatus: state.articleEditor.publishStatus
    };
 }
 
-export default connect(mapStateToProps, { addNewArticle, uploadFeatureImage })(Editor);
+export default connect(mapStateToProps, { addNewArticle, uploadFeatureImage, resetPublishStatue })(Editor);

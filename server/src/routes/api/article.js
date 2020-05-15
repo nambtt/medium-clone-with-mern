@@ -32,7 +32,7 @@ router.route('/')
          title: req.body.title,
          content: req.body.content,
          author: req.body.authorId,
-         featureImage: req.body.featureImageUrl
+         featureImage: req.body.featureImage
       });
 
       const newArticle = await article.save();

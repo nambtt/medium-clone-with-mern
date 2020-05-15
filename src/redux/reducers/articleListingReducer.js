@@ -1,9 +1,6 @@
 import {
    LOAD_ARTICLES,
-   LOAD_ARTICLES_POPULAR,
-   ADD_NEW_ARTICLE_LOADING,
-   ADD_NEW_ARTICLE_SUCCESS,
-   ADD_NEW_ARTICLE_FAIL
+   LOAD_ARTICLES_POPULAR
 } from '../types'
 const initialState = {
    articles: [],

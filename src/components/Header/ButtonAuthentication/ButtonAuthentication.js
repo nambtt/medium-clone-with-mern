@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { Dropdown, Image, Menu } from 'semantic-ui-react'
+import { Dropdown, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
 import { logOut } from '../../../redux/actions/authActions'
