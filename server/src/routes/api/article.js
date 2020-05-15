@@ -25,14 +25,16 @@ router.route('/')
    .post(requireJwtAuth, async (req, res, next) => {
       const { error } = Joi.validate(req.body, newArticleSchema);
       if (error) {
-         return res.stats(422).send({ message: error.details[0].message });
+         return res.status(422).send({ message: error.details[0].message });
       }
 
       const article = new Article({
          title: req.body.title,
          content: req.body.content,
-         author: req.body.authorId
+         author: req.body.authorId,
+         featureImage: req.body.featureImageUrl
       });
+
       const newArticle = await article.save();
       res.send(newArticle);
    })
@@ -40,12 +42,10 @@ router.route('/')
       if (req.user.id !== req.body.authorId) {
          return res.status(422).send({ message: "Invalid credential to update this article." });
       }
-      var dbArticle = await Article.findById(req.body._id );
+      var dbArticle = await Article.findById(req.body._id);
       if (!dbArticle) {
          return res.status(422).send({ message: "This article is not found" });
       }
-
-      dbArticle.
    })
 
 router.route('/feed')

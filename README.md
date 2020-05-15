@@ -21,6 +21,12 @@ The self-asked questions:
 - Redux or react hook useReducer
 - Login, authentication with socials and local auth
 - Is is possible that after register an account, the website will login automatically
+- Decide where to store images, cloud or db or somewhere else.
+  - Choosing Cloudinary for storing and managing images like Medium app
+  - Using Multer package to upload multipart/form-data
+  - Problems: upload from server side have some disadvantage 1) have to save file to temp folder on server and remove it after uploading to Cloudinary 2) have implement queue/worker to improve upload performance
+  - Change decision to upload images on client.
+  - Add Cloudinary preset
 
 <!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

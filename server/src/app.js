@@ -5,7 +5,6 @@ const passport = require('passport');
 const cors = require('cors')
 const routes = require('./routes')
 
-const app = express();
 
 const { seedDb } = require('../src/utils/seed');
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/medium-clone-with-mern"
@@ -37,6 +36,8 @@ const corsOptions = {
       }
    }
 }
+
+const app = express();
 app.use(cors(corsOptions));
 
 app.use(express.json());

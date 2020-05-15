@@ -1,7 +1,7 @@
 .editor-section {
 	margin: 20px auto 0;
 	max-width: 740px;
-	padding: 0 50px;
+	padding: 0 20px;
 }
 
 .editor-title {
@@ -12,10 +12,14 @@
 	width: 100%;
 }
 
+.editor-content {
+	padding-bottom: 50px !important;
+}
+
 .picture-upload {
 	cursor: pointer;
 	position: relative;
-	left: -50px;
+	/* left: -50px; */
 }
 #image-preview {
 	width: 100%;

@@ -1,21 +1,27 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useLayoutEffect } from 'react'
 import { Icon, Segment } from 'semantic-ui-react'
 import MediumEditor from 'medium-editor'
+import { Image as CldImage } from 'cloudinary-react';
 import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
 import './Editor.css'
 import EditorHeader from './EditorHeader/EditorHeader';
+import { connect } from 'react-redux';
+import { addNewArticle, uploadFeatureImage } from '../../redux/actions/articleActions'
 
-export default function Editor() {
+const Editor = ({ addNewArticle, uploadFeatureImage, authorId, featureImageUrl }) => {
 
    const fileRef = useRef();
+
+   const [content, setContent] = useState("");
+   const [title, setTitle] = useState("");
+
    const previewImg = () => {
       const file = fileRef.current.files[0];
       const reader = new FileReader();
       reader.onload = function (e) {
          document.getElementById("image-preview").src = e.target.result;
-         // this.setState({
-         //    imgSrc: file /*e.target.result*/,
-         // });
+         // upload image to Cloudinary
+         uploadFeatureImage(file);
       };
       reader.readAsDataURL(file);
    }
@@ -43,22 +49,22 @@ export default function Editor() {
       },
    });
 
-   // editor.subscribe('editableInput', (event, editable) => {
-
-   // })
+   editor.subscribe('editableInput', () => {
+      setContent(editor.getContent(0));
+   })
 
    const publish = () => {
-
+      addNewArticle({ title, content, authorId, featureImage: featureImageUrl });
    }
 
    return (
       <div>
          <div className="editor-section">
-            <EditorHeader publish={publish}/>
+            <EditorHeader publish={publish} />
             <textarea
                className="editor-title"
                id="editor-title"
-               placeholder="Title" />
+               placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <span className="picture-upload" title="Upload a feature image" onClick={() => fileRef.current.click()}>
                <Icon name="camera" size="big"></Icon>
                <div class="hidden">
@@ -70,11 +76,26 @@ export default function Editor() {
                   />
                </div>
             </span>
+
             <img src="" alt="" id="image-preview" />
-            <Segment>
+            {/* <CldImage cloudName="dcvhx5qfv" publicId="Medinum-clone-with-mern" width="300" crop="scale" /> */}
+
+            <Segment className="editor-content">
                <textarea className="editor" />
             </Segment>
+            {/* <div style={{ float: "left", clear: "both" }}
+               ref={messageEndRef}>
+            </div> */}
          </div>
       </div>
    )
 }
+
+const mapStateToProps = (state) => {
+   return {
+      authorId: state.auth.me?.id,
+      featureImageUrl: state.article.featureImageUrl
+   };
+}
+
+export default connect(mapStateToProps, { addNewArticle, uploadFeatureImage })(Editor);
