@@ -23,10 +23,10 @@ router.route('/')
          })
    })
    .post(requireJwtAuth, async (req, res, next) => {
-      const { error } = Joi.validate(req.body, newArticleSchema);
-      if (error) {
-         return res.status(422).send({ message: error.details[0].message });
-      }
+      // const { error } = Joi.validate(req.body, newArticleSchema);
+      // if (error) {
+      //    return res.status(422).send({ message: error.details[0].message });
+      // }
 
       const article = new Article({
          title: req.body.title,
@@ -46,6 +46,9 @@ router.route('/')
       if (!dbArticle) {
          return res.status(422).send({ message: "This article is not found" });
       }
+      const { _id, ...updatedFields } = req.body;
+      await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields } });
+      res.send({ _id: req.body._id });
    })
 
 router.route('/feed')

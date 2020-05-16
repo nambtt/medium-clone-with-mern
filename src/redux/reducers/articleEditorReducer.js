@@ -14,7 +14,8 @@ const initialState = {
    featureImageIsUploading: false,
    isErrorPublishingWhileUploadImage: false,
    featureImageUrl: '',
-   publishStatus: Object.keys(PublishStatus)[0]
+   publishStatus: Object.keys(PublishStatus)[0],
+   articleId: ""
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -50,6 +51,7 @@ export default (state = initialState, { type, payload }) => {
       case ADD_NEW_ARTICLE_SUCCESS:
          return {
             ...state,
+            articleId: payload._id,
             publishStatus: Object.keys(PublishStatus)[2] // published
          }
       case ADD_NEW_ARTICLE_FAIL:

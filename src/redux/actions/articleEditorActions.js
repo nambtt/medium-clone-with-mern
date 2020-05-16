@@ -29,7 +29,7 @@ export const uploadFeatureImage = (file) => async (dispatch) => {
    dispatch({ type: UPLOAD_FEATURE_IMAGE_SUCCESS, payload: response.data.secure_url });
 }
 
-export const addNewArticle = (article) => async (dispatch, getState) => {
+export const publishArticle = (article) => async (dispatch, getState) => {
    if (getState().articleEditor.featureImageIsUploading) {
       dispatch({ type: CANNOT_PUBLISH_WHILE_UPLOADING_IMAGE });
       return;
@@ -38,7 +38,9 @@ export const addNewArticle = (article) => async (dispatch, getState) => {
    dispatch({ type: ADD_NEW_ARTICLE_LOADING });
    try {
       const options = attachTokenToHeader(getState);
-      const response = await articleApis.post('/articles', article, options);
+      const response = article._id ?
+         await articleApis.put('/articles', article, options) :
+         await articleApis.post('/articles', article, options);
 
       dispatch({ type: ADD_NEW_ARTICLE_SUCCESS, payload: response.data });
    } catch (error) {

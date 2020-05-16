@@ -4,14 +4,16 @@ import MediumEditor from 'medium-editor'
 import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
 import './Editor.css'
 import EditorHeader from './EditorHeader/EditorHeader';
+import FlashMessage from '../FlashMessage/FlashMessage'
 import { connect } from 'react-redux';
-import { addNewArticle, uploadFeatureImage, resetPublishStatue } from '../../redux/actions/articleEditorActions'
+import { publishArticle, uploadFeatureImage, resetPublishStatue } from '../../redux/actions/articleEditorActions'
 
 const Editor = ({
-   addNewArticle,
+   publishArticle,
    uploadFeatureImage,
    resetPublishStatue,
 
+   articleId,
    authorId,
    featureImageIsUploading,
    featureImageUrl,
@@ -21,6 +23,7 @@ const Editor = ({
 
    const [content, setContent] = useState("");
    const [title, setTitle] = useState("");
+   const [errorMessage, setErrorMessage] = useState(null)
    const [isErrorOnPublishingWhileUploadingImage, setIsErrorOnPublishingWhileUploadingImage] = useState(false)
 
    const previewImg = () => {
@@ -69,7 +72,15 @@ const Editor = ({
          setIsErrorOnPublishingWhileUploadingImage(true);
          return;
       }
-      addNewArticle({ title, content, authorId, featureImage: featureImageUrl });
+      if (!title) {
+         setErrorMessage({
+            dummy: Math.random(), // trigger ErrorMessage to re-render
+            header: "Oops!",
+            message: "Did you mean to write something so short? Please write more and try publishing again.",
+         });
+         return;
+      }
+      publishArticle({ _id: articleId, title, content, authorId, featureImage: featureImageUrl });
    }
 
    return (
@@ -120,12 +131,14 @@ const Editor = ({
                </Button>
             </Modal.Actions>
          </Modal>
+         {<FlashMessage {...errorMessage} />}
       </div>
    )
 }
 
 const mapStateToProps = (state) => {
    return {
+      articleId: state.articleEditor.articleId,
       authorId: state.auth.me?.id,
       featureImageUrl: state.articleEditor.featureImageUrl,
       featureImageIsUploading: state.articleEditor.featureImageIsUploading,
@@ -133,4 +146,4 @@ const mapStateToProps = (state) => {
    };
 }
 
-export default connect(mapStateToProps, { addNewArticle, uploadFeatureImage, resetPublishStatue })(Editor);
+export default connect(mapStateToProps, { publishArticle, uploadFeatureImage, resetPublishStatue })(Editor);

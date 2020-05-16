@@ -1,0 +1,28 @@
+.ui.message.flash-message {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	margin-top: -2px;
+	transform: translateX(-50%);
+	display: none;
+}
+.ui.message.flash-message.show {
+	display: block;
+	animation-name: flash-message;
+	/* animation-duration: 5s;  */
+}
+@keyframes flash-message {
+	0% {
+		top: -150px;
+		opacity: 1;
+	}
+	10% {
+		top: 0px;
+	}
+	90% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
