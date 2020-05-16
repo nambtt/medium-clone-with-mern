@@ -24,7 +24,6 @@ const Editor = ({
    const [content, setContent] = useState("");
    const [title, setTitle] = useState("");
    const [errorMessage, setErrorMessage] = useState(null)
-   const [isErrorOnPublishingWhileUploadingImage, setIsErrorOnPublishingWhileUploadingImage] = useState(false)
 
    const previewImg = () => {
       if (!fileRef.current.files.length)
@@ -69,7 +68,11 @@ const Editor = ({
 
    const publish = () => {
       if (featureImageIsUploading) {
-         setIsErrorOnPublishingWhileUploadingImage(true);
+         setErrorMessage({
+            dummy: Math.random(), // trigger ErrorMessage to re-render
+            header: "Oops!",
+            message: "Please wait until uploading image finishes",
+         });
          return;
       }
       if (!title) {
@@ -118,7 +121,7 @@ const Editor = ({
                <textarea className="editor" />
             </Segment>
          </div>
-         <Modal open={isErrorOnPublishingWhileUploadingImage} basic size='small'>
+         {/* <Modal open={isErrorOnPublishingWhileUploadingImage} basic size='small'>
             <Header icon='archive' content='Please wait...' />
             <Modal.Content>
                <p>
@@ -130,7 +133,7 @@ const Editor = ({
                   <Icon name='checkmark' /> Ok
                </Button>
             </Modal.Actions>
-         </Modal>
+         </Modal> */}
          {<FlashMessage {...errorMessage} />}
       </div>
    )
