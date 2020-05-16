@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const Joi = require('joi')
+const Joi = require('@hapi/joi')
 const faker = require('faker')
 
 const User = require('../models/User')
@@ -10,7 +10,7 @@ const router = Router();
 
 router.route('/register')
    .post(async (req, res, next) => {
-      const { error } = Joi.validate(req.body, registerSchema);
+      const { error } = registerSchema.validate(req.body);
       if (error) {
          return res.status(422).send({ message: error.details[0].message });
       }

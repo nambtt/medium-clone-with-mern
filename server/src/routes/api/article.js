@@ -1,5 +1,5 @@
 
-const Joi = require('joi')
+const Joi = require('@hapi/joi')
 const { Router } = require('express')
 const Article = require('../../models/Article')
 const requireJwtAuth = require('../../middlewares/requireJwtAuth')
@@ -23,10 +23,10 @@ router.route('/')
          })
    })
    .post(requireJwtAuth, async (req, res, next) => {
-      // const { error } = Joi.validate(req.body, newArticleSchema);
-      // if (error) {
-      //    return res.status(422).send({ message: error.details[0].message });
-      // }
+      const { error } = newArticleSchema.validate(req.body);
+      if (error) {
+         return res.status(422).send({ message: error.details[0].message });
+      }
 
       const article = new Article({
          title: req.body.title,

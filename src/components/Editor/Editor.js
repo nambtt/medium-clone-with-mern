@@ -38,6 +38,26 @@ const Editor = ({
       reader.readAsDataURL(file);
    }
 
+   const publish = () => {
+      if (featureImageIsUploading) {
+         setErrorMessage({
+            dummy: Math.random(), // trigger ErrorMessage to re-render
+            header: "Oops!",
+            message: "Please wait until uploading image finishes",
+         });
+         return;
+      }
+      if (!title) {
+         setErrorMessage({
+            dummy: Math.random(), // trigger ErrorMessage to re-render
+            header: "Oops!",
+            message: "Did you mean to write something so short? Please write more and try publishing again.",
+         });
+         return;
+      }
+      publishArticle({ _id: articleId, title, content, authorId, featureImage: featureImageUrl });
+   }
+
    const editor = new MediumEditor(".editor", {
       autoLink: true,
       delay: 1000,
@@ -65,26 +85,6 @@ const Editor = ({
       resetPublishStatue();
       setContent(editor.getContent(0));
    })
-
-   const publish = () => {
-      if (featureImageIsUploading) {
-         setErrorMessage({
-            dummy: Math.random(), // trigger ErrorMessage to re-render
-            header: "Oops!",
-            message: "Please wait until uploading image finishes",
-         });
-         return;
-      }
-      if (!title) {
-         setErrorMessage({
-            dummy: Math.random(), // trigger ErrorMessage to re-render
-            header: "Oops!",
-            message: "Did you mean to write something so short? Please write more and try publishing again.",
-         });
-         return;
-      }
-      publishArticle({ _id: articleId, title, content, authorId, featureImage: featureImageUrl });
-   }
 
    return (
       <div>

@@ -7,10 +7,7 @@ const articleSchema = new mongoose.Schema({
    },
    description: String,
    featureImage: String,
-   content: {
-      type: String,
-      required: true
-   },
+   content: String,
    clap: {
       type: Number,
    },
