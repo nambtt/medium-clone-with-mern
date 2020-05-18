@@ -87,53 +87,38 @@ const Editor = ({
    })
 
    return (
-      <div>
-         <div className="editor-section">
-            {/* Header Bar */}
-            <EditorHeader publish={publish} publishStatus={publishStatus} />
-            {/* Title */}
-            <textarea
-               className="editor-title"
-               id="editor-title"
-               placeholder="Title" value={title} onChange={(e) => { resetPublishStatue(); setTitle(e.target.value) }} />
-            {/* Upload Feature Image Button */}
-            <span className="picture-upload" title="Upload a feature image" onClick={() => fileRef.current.click()}>
-               <Icon name="camera" size="big"></Icon>
-               <div class="hidden">
-                  <input
-                     type="file"
-                     onChange={() => previewImg()}
-                     id="file"
-                     ref={fileRef}
-                  />
-               </div>
-            </span>
-            {/* Feature Image Preview */}
-            <div>
-               <Placeholder style={{ height: 150, width: 150, display: (featureImageIsUploading ? "block" : "none") }}>
-                  <Placeholder.Image />
-               </Placeholder>
-               <img src="" alt="" id="image-preview" style={{ display: (featureImageIsUploading ? "none" : "block") }} />
+      <div className="editor-section">
+         {/* Header Bar */}
+         <EditorHeader publish={publish} publishStatus={publishStatus} />
+         {/* Title */}
+         <textarea
+            className="editor-title"
+            id="editor-title"
+            placeholder="Title" value={title} onChange={(e) => { resetPublishStatue(); setTitle(e.target.value) }} />
+         {/* Upload Feature Image Button */}
+         <span className="picture-upload" title="Upload a feature image" onClick={() => fileRef.current.click()}>
+            <Icon name="camera" size="big"></Icon>
+            <div class="hidden">
+               <input
+                  type="file"
+                  onChange={() => previewImg()}
+                  id="file"
+                  ref={fileRef}
+               />
             </div>
-
-            {/* Article Content */}
-            <Segment className="editor-content">
-               <textarea className="editor" />
-            </Segment>
+         </span>
+         {/* Feature Image Preview */}
+         <div>
+            <Placeholder style={{ height: 150, width: 150, display: (featureImageIsUploading ? "block" : "none") }}>
+               <Placeholder.Image />
+            </Placeholder>
+            <img src="" alt="" id="image-preview" style={{ display: (featureImageIsUploading ? "none" : "block") }} />
          </div>
-         {/* <Modal open={isErrorOnPublishingWhileUploadingImage} basic size='small'>
-            <Header icon='archive' content='Please wait...' />
-            <Modal.Content>
-               <p>
-                  Your feature image is being uploaded, wait a few moment later.
-               </p>
-            </Modal.Content>
-            <Modal.Actions>
-               <Button color='green' inverted onClick={() => setIsErrorOnPublishingWhileUploadingImage(false)}>
-                  <Icon name='checkmark' /> Ok
-               </Button>
-            </Modal.Actions>
-         </Modal> */}
+
+         {/* Article Content */}
+         <Segment className="editor-content">
+            <textarea className="editor" />
+         </Segment>
          {<FlashMessage {...errorMessage} />}
       </div>
    )

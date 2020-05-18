@@ -7,6 +7,40 @@ const { newArticleSchema } = require('../../services/validators')
 
 const router = Router();
 
+
+
+router.route('/feed')
+   .get((req, res, next) => {
+      Article.find({}).sort({ createdDate: -1 }).limit(10)
+         .populate('author')
+         .populate('comments.author').exec(function (err, articles) {
+            if (err)
+               res.send(err);
+            else if (!articles)
+               res.send(400);
+            else
+               res.send(articles);
+
+            next();
+         })
+   })
+
+router.route('/popular')
+   .get((req, res, next) => {
+      Article.find({}).sort({ clap: -1 }).limit(4)
+         .populate('author')
+         .populate('comments.author').exec(function (err, articles) {
+            if (err)
+               res.send(err);
+            else if (!articles)
+               res.send(400);
+            else
+               res.send(articles);
+
+            next();
+         })
+   })
+
 router.route('/')
    .get((req, res, next) => {
       Article.find({})
@@ -44,43 +78,23 @@ router.route('/')
       }
       var dbArticle = await Article.findById(req.body._id);
       if (!dbArticle) {
-         return res.status(422).send({ message: "This article is not found" });
+         return res.status(404).send({ message: "This article is not found" });
       }
       const { _id, ...updatedFields } = req.body;
       await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields } });
       res.send({ _id: req.body._id });
    })
 
-router.route('/feed')
-   .get((req, res, next) => {
-      Article.find({}).sort({ createdDate: -1 }).limit(10)
+router.route('/:_id')
+   .get(async (req, res, next) => {
+      const article = await Article.findById(req.params._id)
          .populate('author')
-         .populate('comments.author').exec(function (err, articles) {
-            if (err)
-               res.send(err);
-            else if (!articles)
-               res.send(400);
-            else
-               res.send(articles);
+         .populate('comments');
+      if (!article) {
+         return res.status(404).send({ message: "This article is not found" });
+      }
 
-            next();
-         })
-   })
-
-router.route('/popular')
-   .get((req, res, next) => {
-      Article.find({}).sort({ clap: -1 }).limit(4)
-         .populate('author')
-         .populate('comments.author').exec(function (err, articles) {
-            if (err)
-               res.send(err);
-            else if (!articles)
-               res.send(400);
-            else
-               res.send(articles);
-
-            next();
-         })
+      return res.send(article);
    })
 
 module.exports = router;

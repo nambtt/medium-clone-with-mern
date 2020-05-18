@@ -10,7 +10,7 @@ export default ({ article }) => {
       <Item>
          <Item.Content>
             <Item.Header as='h2'>
-               <Link to={`articles/${article._id}`}>{article.title}</Link>
+               <Link to={`view-story/${article._id}`}>{article.title}</Link>
                <Item.Meta>
                   <Header>
                      <Header.Subheader>{article.description}</Header.Subheader>
