@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { Label, Header, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
+import ClapButton from 'react-clap-button'
 import ArticleAuthor from '../ArticleAuthor/ArticleAuthor'
 import Sharing from '../Sharing/Sharing'
+import './StoryViewer.css'
 
 import { loadArticleDetails } from '../../redux/actions/articleActions'
 
@@ -17,6 +19,10 @@ const StoryViewer = ({
       loadArticleDetails(articleId);
    }, [articleId, loadArticleDetails]);
 
+   const onCountChange = () => {
+
+   }
+
    if (!article) {
       return <div>Loading...</div>
    }
@@ -24,19 +30,27 @@ const StoryViewer = ({
    return (
       <div className="story-viewer-wrapper">
          <Header as="h1">{article.title}</Header>
-         <div style={{ display: "flex" }}>
-            <div>
-               <ArticleAuthor authorId={article.author.id}
-                  authorName={article.author.name}
-                  authorImageUrl={article.author.profileImage}
-                  createdAt={article.displayedDate} />
-            </div>
-            <div>
-               <Sharing url={window.location.href} />
-            </div>
+         <div style={{ display: "flex", marginBottom: "3rem", marginTop: "2rem", alignItems: "center" }}>
+            <ArticleAuthor authorId={article.author.id}
+               authorName={article.author.name}
+               authorImageUrl={article.author.profileImageUrl}
+               createdAt={article.displayedDate} />
+            <div style={{ flex: 1 }}></div>
+            <Sharing url={window.location.href} />
          </div>
          <Image src={article.featureImage} />
          {renderHTML(article.content)}
+         <div style={{ display: "flex", marginBottom: "3rem", marginTop: "2rem", alignItems: "center" }}>
+            <ClapButton
+               count={0}
+               countTotal={0}
+               maxCount={50}
+               isClicked={false}
+               onCountChange={onCountChange}
+            />
+            <div style={{ flex: 1 }} />
+            <Sharing url={window.location.href} />
+         </div>
       </div>
    )
 }
