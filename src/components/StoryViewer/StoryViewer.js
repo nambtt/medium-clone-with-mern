@@ -28,7 +28,7 @@ const StoryViewer = ({
    }
 
    return (
-      <div className="story-viewer-wrapper">
+      <div className="story-viewer-wrapper narrow-page-content">
          <Header as="h1">{article.title}</Header>
          <div style={{ display: "flex", marginBottom: "3rem", marginTop: "2rem", alignItems: "center" }}>
             <ArticleAuthor authorId={article.author.id}

@@ -20,7 +20,8 @@ const articleSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: 'User'
       },
-      content: String
+      content: String,
+      createdAt: Date
    }],
    createdDate: Date
 }, opts)
@@ -42,5 +43,16 @@ articleSchema.virtual('displayedDate').get(function () {
    }
    return result;
 })
+
+articleSchema.virtual('noOfComments').get(function () {
+   return this.comments.length;
+})
+
+articleSchema.methods.addComment = async function (comment) {
+   comment.createdAt = new Date();
+   const newComment = this.comments.create(comment);
+   this.comments.push(newComment);
+   await this.save();
+}
 
 module.exports = mongoose.model('Article', articleSchema);

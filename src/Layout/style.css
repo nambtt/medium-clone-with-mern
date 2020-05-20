@@ -1,0 +1,9 @@
+.page-content,
+.narrow-page-content {
+	padding: 20px 0;
+}
+
+.narrow-page-content {
+	max-width: 740px;
+	margin: 0 auto;
+}

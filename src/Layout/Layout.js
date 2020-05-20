@@ -8,7 +8,7 @@ export default function Layout({ children }) {
    return (
       <>
          <Header />
-         <div className="container">{children}</div>
+         <div className="page-content">{children}</div>
       </>
    )
 }

@@ -1,13 +1,13 @@
 
-const Joi = require('@hapi/joi')
 const { Router } = require('express')
 const Article = require('../../models/Article')
 const requireJwtAuth = require('../../middlewares/requireJwtAuth')
 const { newArticleSchema } = require('../../services/validators')
 
+const { articleNotFound } = require('../../utils/apiResult')
+const { sortDescByCreatedAt } = require('../../utils/utils')
+
 const router = Router();
-
-
 
 router.route('/feed')
    .get((req, res, next) => {
@@ -20,8 +20,6 @@ router.route('/feed')
                res.send(400);
             else
                res.send(articles);
-
-            next();
          })
    })
 
@@ -36,8 +34,6 @@ router.route('/popular')
                res.send(400);
             else
                res.send(articles);
-
-            next();
          })
    })
 
@@ -78,7 +74,7 @@ router.route('/')
       }
       var dbArticle = await Article.findById(req.body._id);
       if (!dbArticle) {
-         return res.status(404).send({ message: "This article is not found" });
+         return res.status(404).send(articleNotFound(req.body._id));
       }
       const { _id, ...updatedFields } = req.body;
       await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields } });
@@ -88,13 +84,45 @@ router.route('/')
 router.route('/:_id')
    .get(async (req, res, next) => {
       const article = await Article.findById(req.params._id)
-         .populate('author')
-         .populate('comments');
+         .populate('author');
       if (!article) {
-         return res.status(404).send({ message: "This article is not found" });
+         return res.status(404).send(articleNotFound(req.params._id));
       }
 
       return res.send(article);
+   })
+
+router.route('/:_id/comments')
+   .get(requireJwtAuth, async (req, res) => {
+      const article = await Article.findById(req.params._id)
+         .select(["_id", "comments", "author", "title", "clap"])
+         .populate('author', ["id", "name", "clap"])
+         .populate("comments.author", ["_id", "name", "profileImageUrl"]);
+
+      article.comments = article.comments.sort(sortDescByCreatedAt);
+
+      if (!article) {
+         return res.status(404).json(articleNotFound(req.params._id));
+      }
+      res.json({ article });
+   })
+   .post(requireJwtAuth, async (req, res) => {
+      let article = await Article.findById(req.params._id)
+         .populate("comments.author");
+      if (!article) {
+         return res.status(404).json(articleNotFound(req.params._id));
+      }
+
+      if (!req.body.author || !req.body.content) {
+         return res.status(400).json({ message: "Invalid comment" });
+      }
+
+      const comment = { author: req.body.author, content: req.body.content };
+
+      await article.addComment(comment);
+      article = await Article.findById(req.params._id)
+         .populate("comments.author", ["_id", "name", "profileImageUrl"]);
+      res.json(article.comments[article.comments.length - 1]);
    })
 
 module.exports = router;

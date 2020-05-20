@@ -10,6 +10,7 @@ import NewStory from '../../pages/NewStory/NewStory'
 
 import { loadMe, logInUserWithOauth } from '../../redux/actions/authActions'
 import { ViewStory } from '../../pages/ViewStory/ViewStory';
+import Comments from '../../pages/Comments/Comments';
 
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
@@ -38,6 +39,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
 					<Route path="/" component={Feed} exact></Route>
 					<Route path="/new-story" component={NewStory} exact></Route>
 					<Route path="/view-story/:_id" component={ViewStory} exact></Route>
+					<Route path="/view-story/:_id/comments" component={Comments} exact></Route>
 				</div>
 			</Router>
 		</div>
