@@ -10,7 +10,7 @@ export default ({ article }) => {
       <Segment>
          <div style={{ display: 'flex' }}>
             <div>
-               <div>{article.title}</div>
+               <Link to={`/view-story/${article._id}`}>{article.title}</Link>
                <div>{article.author.name}</div>
             </div>
             <div style={{ flex: 1 }}></div>

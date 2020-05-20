@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Label, Header, Image } from 'semantic-ui-react'
+import { Label, Header, Image, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
 import ClapButton from 'react-clap-button'
@@ -8,6 +8,7 @@ import Sharing from '../Sharing/Sharing'
 import './StoryViewer.css'
 
 import { loadArticleDetails } from '../../redux/actions/articleActions'
+import { Link } from 'react-router-dom'
 
 const StoryViewer = ({
    articleId,
@@ -51,6 +52,10 @@ const StoryViewer = ({
             <div style={{ flex: 1 }} />
             <Sharing url={window.location.href} />
          </div>
+
+         <Message info style={{ textAlign: "center" }}>
+            <Link to={`/view-story/${article._id}/comments`}>See responses ({article.comments.length})</Link>
+         </Message>
       </div>
    )
 }

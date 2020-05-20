@@ -4,9 +4,14 @@ import {
    LOAD_COMMENTS,
    LOAD_COMMENTS_SUCCESS,
    ADD_COMMENT,
-   ADD_COMMENT_SUCCESS
+   ADD_COMMENT_SUCCESS,
+   COMPOSING_COMMENT
 } from '../types'
 import { attachTokenToHeader } from './authActions';
+
+export const setComposingComment = (y) => {
+   return { type: COMPOSING_COMMENT };
+}
 
 export const loadComments = (articleId) => async (dispatch, getState) => {
    dispatch({ type: LOAD_COMMENTS });
