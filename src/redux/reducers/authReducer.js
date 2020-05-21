@@ -3,6 +3,7 @@ const Types = require('../types')
 const initialState = {
    token: localStorage.getItem('token'),
    isAuthenticated: false,
+   currentPageNeedAuthorization: false,
    me: null,
    appLoaded: false,
    isLoading: false,
@@ -12,6 +13,12 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
 
    switch (type) {
+      case Types.NEED_AUTHORIZATION:
+         console.log(type, payload)
+         return {
+            ...state,
+            currentPageNeedAuthorization: payload,
+         }
       case Types.ME_LOADING:
          return {
             ...state,

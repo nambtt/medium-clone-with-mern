@@ -1,14 +1,28 @@
 import React from 'react'
-import Layout from '../../Layout/Layout'
+import AuthenticationLayout from '../../Layout/AuthenticationLayout'
 import Editor from '../../components/Editor/Editor'
 import { Container } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
-export default function AddArticle() {
+const AddArticle = ({ auth, requireAuthorization }) => {
+
    return (
-      <Layout>
-         <Container>
-            <Editor />
-         </Container>
-      </Layout>
+      <>
+         <AuthenticationLayout>
+            <Container>
+               <Editor />
+            </Container>
+         </AuthenticationLayout>
+      </>
    )
 }
+
+const mapStateToProps = (state) => {
+   return {
+      auth: state.auth
+   }
+}
+
+export default connect(mapStateToProps, {})(AddArticle)
+
+

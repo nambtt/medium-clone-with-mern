@@ -5,13 +5,13 @@ const requireJwtAuth = require('../../middlewares/requireJwtAuth')
 const { newArticleSchema } = require('../../services/validators')
 
 const { articleNotFound } = require('../../utils/apiResult')
-const { sortDescByCreatedAt } = require('../../utils/utils')
+const { sortDescByCreatedAt, getWords } = require('../../utils/utils')
 
 const router = Router();
 
 router.route('/feed')
    .get((req, res, next) => {
-      Article.find({}).sort({ createdDate: -1 }).limit(10)
+      Article.find({}).sort({ createdAt: -1 }).limit(10)
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
             if (err)
@@ -58,9 +58,13 @@ router.route('/')
          return res.status(422).send({ message: error.details[0].message });
       }
 
+      const html = require('cheerio').load(req.body.content);
+      let desc = getWords(html.text());
+
       const article = new Article({
          title: req.body.title,
          content: req.body.content,
+         description: desc,
          author: req.body.authorId,
          featureImage: req.body.featureImage
       });
@@ -93,7 +97,7 @@ router.route('/:_id')
    })
 
 router.route('/:_id/comments')
-   .get(requireJwtAuth, async (req, res) => {
+   .get(async (req, res) => {
       const article = await Article.findById(req.params._id)
          .select(["_id", "comments", "author", "title", "clap"])
          .populate('author', ["id", "name", "clap"])

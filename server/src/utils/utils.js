@@ -41,5 +41,10 @@ module.exports = {
          return -1;
       }
       return 0;
+   },
+
+   getWords: function (str, count = 20) {
+      return str.split(/\s+/).slice(0, count).join(" ");
    }
+
 }

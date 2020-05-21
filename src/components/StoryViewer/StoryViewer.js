@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Label, Header, Image, Message } from 'semantic-ui-react'
+import { Header, Image, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
 import ClapButton from 'react-clap-button'

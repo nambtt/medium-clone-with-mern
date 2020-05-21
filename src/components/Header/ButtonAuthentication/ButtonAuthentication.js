@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom'
 import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
 import { logOut } from '../../../redux/actions/authActions'
 
-const AuthenticationButton = ({ auth, logOut }) => {
+const AuthenticationButton = ({ auth, logOut, buttonText }) => {
 
    if (!auth.isAuthenticated || !auth.me) {
       return (
          <>
-            <ModalAuthentication trigger={<Link id="signInButton">Sign in/Sign up</Link>} />
+            <ModalAuthentication trigger={<button id="signInButton">{buttonText}</button>} />
          </>
       );
    }
@@ -38,6 +38,10 @@ const mapStateToProps = (state) => {
    return {
       auth: state.auth
    }
+}
+
+AuthenticationButton.defaultProps = {
+   buttonText: "Sign in/Sign up"
 }
 
 export default connect(mapStateToProps, { logOut })(AuthenticationButton)

@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
+    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "faker": "^4.1.0",

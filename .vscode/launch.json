@@ -4,19 +4,19 @@
 	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
-		// {
-		// 	"type": "node",
-		// 	"request": "launch",
-		// 	"name": "Launch Program",
-		// 	"skipFiles": ["<node_internals>/**"],
-		// 	"program": "${workspaceFolder}/server/src/app"
-		// },
 		{
-			"type": "chrome",
+			"type": "node",
 			"request": "launch",
-			"name": "Launch Chrome against localhost",
-			"url": "http://localhost:5005",
-			"webRoot": "${workspaceFolder}/src"
+			"name": "Launch Program",
+			"skipFiles": ["<node_internals>/**"],
+			"program": "${workspaceFolder}/server/src/app"
 		}
+		// {
+		// 	"type": "chrome",
+		// 	"request": "launch",
+		// 	"name": "Launch Chrome against localhost",
+		// 	"url": "http://localhost:5005",
+		// 	"webRoot": "${workspaceFolder}/src"
+		// }
 	]
 }

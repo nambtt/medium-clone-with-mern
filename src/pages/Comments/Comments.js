@@ -7,10 +7,10 @@ import ArticleAuthor from '../../components/ArticleAuthor/ArticleAuthor'
 import StorySummaryStandalone from '../../components/StorySummaryStandalone/StorySummaryStandalone'
 
 import { loadComments } from '../../redux/actions/commentActions'
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import CommentEditor from '../../components/CommentEditor/CommentEditor'
 
-const Comments = ({ article, loadComments }) => {
+const Comments = ({ auth, article, loadComments }) => {
 
    let { _id } = useParams()
 

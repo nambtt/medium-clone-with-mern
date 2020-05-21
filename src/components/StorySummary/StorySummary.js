@@ -20,7 +20,7 @@ export default ({ article }) => {
             <Item.Meta>
                <Header>
                   <Header.Subheader>
-                     <Icon name='like' />{article.clap} Likes
+                     <Icon name='like' />{article.clap || 0} Likes
                         <span className="mid-dot-divider"></span>
                      {article.displayedDate}
                   </Header.Subheader>

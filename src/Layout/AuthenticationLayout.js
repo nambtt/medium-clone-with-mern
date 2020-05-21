@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
 
 import Header from '../components/Header/Header'
 import './style.css'
@@ -7,8 +6,17 @@ import { Message } from 'semantic-ui-react'
 import ButtonAuthentication from '../components/Header/ButtonAuthentication/ButtonAuthentication'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { requireAuthorization } from '../redux/actions/authActions'
 
-function Layout({ auth, children }) {
+function AuthenticationLayout({ auth, children, requireAuthorization }) {
+
+   useEffect(() => {
+      requireAuthorization(true)
+      return () => {
+         requireAuthorization(false)
+      }
+   }, [])
+
    return (
       <>
          <div className={!auth.isAuthenticated && auth.currentPageNeedAuthorization ? "" : "hidden"}>
@@ -47,4 +55,4 @@ function Layout({ auth, children }) {
    )
 }
 
-export default connect(state => ({ auth: state.auth }), {})(Layout)
+export default connect(state => ({ auth: state.auth }), { requireAuthorization })(AuthenticationLayout)

@@ -83,7 +83,7 @@ const Editor = ({
 
    editor.subscribe('editableInput', () => {
       resetPublishStatue();
-      setContent();
+      setContent(editor.getContent(0));
    })
 
    return (

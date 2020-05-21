@@ -2,6 +2,7 @@ import authApis from '../../apis/authApis'
 import articleApis from '../../apis/articleApis'
 
 import {
+   NEED_AUTHORIZATION,
    LOGIN_WITH_OAUTH_LOADING,
    LOGIN_WITH_OAUTH_SUCCESS,
    LOGIN_WITH_OAUTH_FAIL,
@@ -102,6 +103,11 @@ export const logOut = (history) => async dispatch => {
       console.log(error);
    }
 }
+
+export const requireAuthorization = (yes) => {
+   return { type: NEED_AUTHORIZATION, payload: yes };
+}
+
 function deleteAllCookies() {
    var cookies = document.cookie.split(';');
 
