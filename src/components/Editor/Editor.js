@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react'
-import { Icon, Segment, Modal, Button, Header, Placeholder } from 'semantic-ui-react'
-import MediumEditor from 'medium-editor'
-import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
-import './Editor.css'
-import EditorHeader from './EditorHeader/EditorHeader';
-import FlashMessage from '../FlashMessage/FlashMessage'
+import MediumEditor from 'medium-editor';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { publishArticle, uploadFeatureImage, resetPublishStatue } from '../../redux/actions/articleEditorActions'
+import { Icon, Placeholder, Segment } from 'semantic-ui-react';
+import { publishArticle, resetPublishStatue, uploadFeatureImage } from '../../redux/actions/articleEditorActions';
+import FlashMessage from '../FlashMessage/FlashMessage';
+import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
+import './Editor.css';
+import EditorHeader from './EditorHeader/EditorHeader';
 
 const Editor = ({
    publishArticle,

@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux'
 import Cookies from 'js-cookie';
-
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-
-import './App.css';
-import Feed from '../../pages/Feed/Feed'
-import NewStory from '../../pages/NewStory/NewStory'
-
-import { loadMe, logInUserWithOauth } from '../../redux/actions/authActions'
-import { ViewStory } from '../../pages/ViewStory/ViewStory';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Comments from '../../pages/Comments/Comments';
+import Feed from '../../pages/Feed/Feed';
+import NewStory from '../../pages/NewStory/NewStory';
+import { ViewStory } from '../../pages/ViewStory/ViewStory';
+import { loadMe, logInUserWithOauth } from '../../redux/actions/authActions';
+import './App.css';
+
+
+
 
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {

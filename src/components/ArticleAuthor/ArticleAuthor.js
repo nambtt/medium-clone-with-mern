@@ -1,6 +1,6 @@
 import React from 'react'
-import { Header, Image, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { Header, Image } from 'semantic-ui-react'
 
 export default function ArticleAuthor({ authorId, authorName, authorImageUrl, createdAt }) {
    return (

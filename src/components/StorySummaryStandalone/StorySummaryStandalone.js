@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Icon, Segment, Label } from 'semantic-ui-react'
-
+import { Icon, Label, Segment } from 'semantic-ui-react'
 import './StorySummaryStandalone.css'
+
 
 export default ({ article }) => {
    return (

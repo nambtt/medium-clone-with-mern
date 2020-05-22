@@ -1,6 +1,6 @@
-import React from 'react'
-import { Menu, Button } from 'semantic-ui-react'
-import { PublishStatus } from '../../../constants/enum'
+import React from 'react';
+import { Button, Menu } from 'semantic-ui-react';
+import { PublishStatus } from '../../../constants/enum';
 
 export default function EditorHeader({ publish, publishStatus }) {
    const disabledStatuses = [Object.keys(PublishStatus)[2], Object.keys(PublishStatus)[3]];

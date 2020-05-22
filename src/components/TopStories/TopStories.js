@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, Item } from 'semantic-ui-react'
+import { Header, Item, Segment } from 'semantic-ui-react'
+import { loadPopularArticles } from '../../redux/actions/articleActions'
 import StorySummaryCompact from '../StorySummaryCompact/StorySummaryCompact'
-
 import './TopStories.css'
 
-import { loadPopularArticles } from '../../redux/actions/articleActions'
+
 
 const TopStories = ({ loadPopularArticles, articles }) => {
    useEffect(() => {

@@ -1,5 +1,5 @@
-import React from 'react'
-import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
+import React from 'react';
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { SocialIcon } from 'react-social-icons';
 
 export default function Sharing({ url }) {

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Item } from 'semantic-ui-react'
-
+import { loadArticles } from '../../redux/actions/articleActions'
 import StorySummary from '../StorySummary/StorySummary'
 import './StorySummaryList.css'
 
-import { loadArticles } from '../../redux/actions/articleActions'
+
 
 const StorySummaryList = ({ articles, loadArticles }) => {
 

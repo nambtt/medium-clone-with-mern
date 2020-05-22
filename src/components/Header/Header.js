@@ -1,10 +1,10 @@
-import React, { } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Image, Menu } from 'semantic-ui-react'
 import Logo from '../../assets/images/stories-logo.svg'
+import ButtonAuthentication from './ButtonAuthentication/ButtonAuthentication'
 import './Header.css'
 
-import { Link } from 'react-router-dom'
-import { Menu, Image } from 'semantic-ui-react'
-import ButtonAuthentication from './ButtonAuthentication/ButtonAuthentication'
 
 export default () => {
    return (

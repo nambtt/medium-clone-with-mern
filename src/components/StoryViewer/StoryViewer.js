@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import { Header, Image, Message } from 'semantic-ui-react'
+import ClapButton from 'react-clap-button'
 import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
-import ClapButton from 'react-clap-button'
+import { Link } from 'react-router-dom'
+import { Header, Image, Message } from 'semantic-ui-react'
+import { loadArticleDetails } from '../../redux/actions/articleActions'
 import ArticleAuthor from '../ArticleAuthor/ArticleAuthor'
 import Sharing from '../Sharing/Sharing'
 import './StoryViewer.css'
 
-import { loadArticleDetails } from '../../redux/actions/articleActions'
-import { Link } from 'react-router-dom'
 
 const StoryViewer = ({
    articleId,

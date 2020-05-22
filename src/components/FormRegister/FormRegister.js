@@ -1,8 +1,8 @@
+import { useFormik } from 'formik'
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { Form, Button, Message } from 'semantic-ui-react'
+import { Button, Form, Message } from 'semantic-ui-react'
 import { registerUser } from '../../redux/actions/registerActions'
 import { registerSchema } from './validation'
 

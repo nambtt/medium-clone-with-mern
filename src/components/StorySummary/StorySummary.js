@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Feed, Header, Image, Icon, Item } from 'semantic-ui-react'
-
+import { Header, Icon, Image, Item } from 'semantic-ui-react'
 import './StorySummary.css'
+
 
 export default ({ article }) => {
    return (

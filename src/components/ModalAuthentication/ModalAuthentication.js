@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
-import { Modal, Button, Segment, Grid, Divider, Icon } from 'semantic-ui-react'
-import FormRegister from '../FormRegister/FormRegister'
+import { Button, Divider, Grid, Icon, Modal, Segment } from 'semantic-ui-react'
+import { FACEBOOK_AUTH_LINK, GOOGLE_AUTH_LINK } from '../../config/config'
 import FormLogin from '../FormLogin/FormLogin'
-
+import FormRegister from '../FormRegister/FormRegister'
 import './ModalAuthentication.css'
-import { GOOGLE_AUTH_LINK, FACEBOOK_AUTH_LINK } from '../../config/config'
+
+
 
 const ModalAuthentication = ({ open, trigger }) => {
 

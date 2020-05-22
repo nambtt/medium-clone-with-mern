@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { Message } from 'semantic-ui-react'
-import './FlashMessage.css'
-import { toSecondString } from '../../helpers/helper'
+import React, { useEffect, useState } from 'react';
+import { Message } from 'semantic-ui-react';
+import { toSecondString } from '../../helpers/helper';
+import './FlashMessage.css';
 
 export default function FlashMessage({ dummy, header, message, delay }) {
    const [show, setShow] = useState(false);

@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Dropdown, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
+import { Dropdown, Image } from 'semantic-ui-react'
 import { logOut } from '../../../redux/actions/authActions'
+import ModalAuthentication from '../../ModalAuthentication/ModalAuthentication'
 
 const AuthenticationButton = ({ auth, logOut, buttonText }) => {
 
