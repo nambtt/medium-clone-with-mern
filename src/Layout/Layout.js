@@ -47,4 +47,6 @@ function Layout({ auth, children }) {
    )
 }
 
+
+
 export default connect(state => ({ auth: state.auth }), {})(Layout)
