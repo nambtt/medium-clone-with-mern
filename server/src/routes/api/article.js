@@ -14,7 +14,7 @@ const PAGE_SIZE = 10;
 router.route('/feed')
    .get((req, res, next) => {
       Article.find({})
-         //.sort({ createdAt: -1 })
+         .sort({ createdAt: -1 })
          .skip(PAGE_SIZE * ((req.query.page || 1) - 1))
          .limit(PAGE_SIZE)
          .populate('author')

@@ -10,7 +10,7 @@ export default ({ article }) => {
       <Item>
          <Item.Content>
             <Item.Header as='div' className="ui header small">
-               <Link to={`articles/${article._id}`}>{article.title}</Link>
+               <Link to={`view-story/${article._id}`}>{article.title}</Link>
 
             </Item.Header>
             <Item.Meta className="shorten-1">
