@@ -9,9 +9,14 @@ const { sortDescByCreatedAt, getWords } = require('../../utils/utils')
 
 const router = Router();
 
+const PAGE_SIZE = 10;
+
 router.route('/feed')
    .get((req, res, next) => {
-      Article.find({}).sort({ createdAt: -1 }).limit(10)
+      Article.find({})
+         //.sort({ createdAt: -1 })
+         .skip(PAGE_SIZE * ((req.query.page || 1) - 1))
+         .limit(PAGE_SIZE)
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
             if (err)

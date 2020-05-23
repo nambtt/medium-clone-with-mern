@@ -6,8 +6,8 @@ import {
    LOAD_ARTICLE_DETAILS_SUCCESS
 } from '../types'
 
-export const loadArticles = () => async (dispatch) => {
-   const response = await articleApis.get('/articles/feed');
+export const loadArticles = (page = 0) => async (dispatch) => {
+   const response = await articleApis.get(`/articles/feed?page=${page}`);
 
    dispatch({ type: LOAD_ARTICLES, payload: response.data });
 }
