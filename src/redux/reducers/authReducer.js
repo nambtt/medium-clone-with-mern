@@ -14,7 +14,6 @@ export default (state = initialState, { type, payload }) => {
 
    switch (type) {
       case Types.NEED_AUTHORIZATION:
-         console.log(type, payload)
          return {
             ...state,
             currentPageNeedAuthorization: payload,

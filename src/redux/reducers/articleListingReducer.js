@@ -4,7 +4,8 @@ import {
    LOAD_MORE_ARTICLES,
    LOAD_ARTICLES_POPULAR,
    LOAD_MY_ARTICLES,
-   DELETE_ARTICLE_SUCCESS
+   DELETE_ARTICLE_SUCCESS,
+   LOGOUT_SUCCESS
 } from '../types'
 const initialState = {
    articles: [],
@@ -44,15 +45,22 @@ export default (state = initialState, { type, payload }) => {
             myArticles: payload
          }
       case DELETE_ARTICLE_SUCCESS:
-         const article = state.myArticles.filter(item => item._id === payload);
-         if (!article)
+         const articles = state.myArticles.filter(item => item._id === payload);
+         if (!articles.length)
             return state;
-
+         const index = state.myArticles.indexOf(articles[0]);
+         console.log("index", index, payload)
          return {
             ...state,
-            myArticles: state.myArticles.splice(state.myArticles.indexOf(article), 1),
-            articles: state.articles.splice(state.articles.indexOf(article), 1),
-            popularArticles: state.popularArticles.splice(state.popularArticles.indexOf(article), 1)
+            myArticles: [
+               ...state.myArticles.slice(0, index),
+               ...state.myArticles.slice(index + 1)
+            ]
+         }
+      case LOGOUT_SUCCESS:
+         return {
+            ...state,
+            myArticles: []
          }
       default:
          return state;

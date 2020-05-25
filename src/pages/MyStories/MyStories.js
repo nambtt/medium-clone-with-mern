@@ -1,23 +1,54 @@
-import React, { useEffect } from 'react'
-import { Container, Button } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react'
+import { Container, Button, Modal, Header, Icon } from 'semantic-ui-react'
 import AuthenticationLayout from '../../Layout/AuthenticationLayout'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteArticle, loadMyArticles } from '../../redux/actions/articleActions'
 
 
-function MyStories({ articles, loadMyArticles, deleteArticle }) {
+function MyStories({ auth, articles, loadMyArticles, deleteArticle }) {
 
+   const [currentArticleId, setCurrentArticleId] = useState(null)
+   const [confirmOpen, setConfirmOpen] = useState(false)
    useEffect(() => {
       loadMyArticles();
-   }, [])
+   }, [auth.isAuthenticated])
 
-   const onDeleteStory = (articleId) => {
-      deleteArticle(articleId);
+   const onDeleteStory = () => {
+      if (currentArticleId) {
+         deleteArticle(currentArticleId);
+         handleClose();
+      }
    }
+
+   const handleOpen = (articleId) => {
+      setConfirmOpen(true);
+      setCurrentArticleId(articleId)
+   }
+
+   const handleClose = () => setConfirmOpen(false)
 
    return (
       <AuthenticationLayout>
+
+         <Modal basic size='small'
+            open={confirmOpen}
+            onClose={handleClose}>
+            <Header icon='archive' content='Wait wait...' />
+            <Modal.Content>
+               <p>
+                  You want to delete this story? It will be removed completely here.
+               </p>
+            </Modal.Content>
+            <Modal.Actions>
+               <Button basic color='red' inverted onClick={handleClose}>
+                  <Icon name='remove' /> No
+               </Button>
+               <Button color='green' inverted onClick={() => onDeleteStory()}>
+                  <Icon name='checkmark' /> Yes
+               </Button>
+            </Modal.Actions>
+         </Modal>
          <Container>
             <h1>You Stories</h1>
             <div>
@@ -39,7 +70,7 @@ function MyStories({ articles, loadMyArticles, deleteArticle }) {
                            <div>
                               <Link className="link" to={`edit-story/${article._id}`}
                                  style={{ marginRight: "1rem" }}>Edit</Link>
-                              <Button onClick={onDeleteStory}>Delete</Button>
+                              <Button onClick={() => handleOpen(article._id)}>Delete</Button>
                            </div>
                         </li>
                      )
@@ -54,7 +85,8 @@ function MyStories({ articles, loadMyArticles, deleteArticle }) {
 
 const mapStateToProps = state => {
    return {
-      articles: state.articleListing.myArticles
+      articles: state.articleListing.myArticles,
+      auth: state.auth
    }
 }
 

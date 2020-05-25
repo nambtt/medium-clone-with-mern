@@ -116,12 +116,13 @@ router.route('/:_id')
 
       return res.send(article);
    })
-   .delete(async (req, res) => {
-      const article = await Article.findById(req.params._id);
+   .delete(requireJwtAuth, async (req, res) => {
+      const article = await Article.findById(req.params._id)
+         .populate('author');
       if (!article) {
          return res.status(404).send(articleNotFound(req.params._id));
       }
-      if (article.author !== req.user.id) {
+      if (article.author.id !== req.user.id) {
          return res.status(403).send(accessArticleForbidden(req.params._id));
       }
 
