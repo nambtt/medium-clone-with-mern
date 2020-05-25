@@ -2,13 +2,14 @@ import MediumEditor from 'medium-editor';
 import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Placeholder, Segment } from 'semantic-ui-react';
-import { loadArticleForEditing, publishArticle, resetPublishStatue, uploadFeatureImage } from '../../redux/actions/articleEditorActions';
+import { resetStateForNewArticle, loadArticleForEditing, publishArticle, resetPublishStatue, uploadFeatureImage } from '../../redux/actions/articleEditorActions';
 import FlashMessage from '../FlashMessage/FlashMessage';
 import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
 import './Editor.css';
 import EditorHeader from './EditorHeader/EditorHeader';
 
 const Editor = ({
+   resetStateForNewArticle,
    loadArticleForEditing,
    publishArticle,
    uploadFeatureImage,
@@ -99,8 +100,10 @@ const Editor = ({
    useEffect(() => {
       if (editingArticleId && editingArticleId.length) {
          loadArticleForEditing(editingArticleId);
+      } else {
+         resetStateForNewArticle();
       }
-   }, [editingArticleId, loadArticleForEditing])
+   }, [editingArticleId])
 
    useEffect(() => {
       if (editingArticle) {
@@ -129,7 +132,7 @@ const Editor = ({
          {/* Upload Feature Image Button */}
          <span className="picture-upload" title="Upload a feature image" onClick={() => fileRef.current.click()}>
             <Icon name="camera" size="big"></Icon>
-            <div class="hidden">
+            <div className="hidden">
                <input
                   type="file"
                   onChange={() => previewImg()}
@@ -166,4 +169,4 @@ const mapStateToProps = (state) => {
    };
 }
 
-export default connect(mapStateToProps, { loadArticleForEditing, publishArticle, uploadFeatureImage, resetPublishStatue })(Editor);
+export default connect(mapStateToProps, { resetStateForNewArticle, loadArticleForEditing, publishArticle, uploadFeatureImage, resetPublishStatue })(Editor);

@@ -5,6 +5,12 @@ import './StorySummary.css'
 
 
 export default ({ article }) => {
+
+   const renderImage = (url) => {
+      if (url && url.length)
+         return <Item.Image src={article.featureImage} />
+   }
+
    return (
 
       <Item key={article._id}>
@@ -33,7 +39,8 @@ export default ({ article }) => {
                </Header.Content>
             </Header>
          </Item.Content>
-         <Item.Image src={article.featureImage} />
+         {renderImage(article.featureImage)}
+
       </Item>
 
    )

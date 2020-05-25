@@ -2,6 +2,7 @@
 import articleApis from '../../apis/articleApis'
 import cloudImageApis from '../../apis/cloudImageApis'
 import {
+   RESET_STATE_FOR_NEW_ARTICLE,
    RESET_PUBLISH_STATUS,
    ADD_NEW_ARTICLE_LOADING,
    ADD_NEW_ARTICLE_SUCCESS,
@@ -15,7 +16,9 @@ import {
 import { CLOUDINARY_UPLOAD_PRESET } from '../../config/config'
 import { attachTokenToHeader } from './authActions'
 
-
+export const resetStateForNewArticle = () => {
+   return { type: RESET_STATE_FOR_NEW_ARTICLE };
+}
 
 export const uploadFeatureImage = (file) => async (dispatch) => {
 
@@ -48,7 +51,6 @@ export const publishArticle = (article) => async (dispatch, getState) => {
       dispatch({ type: ADD_NEW_ARTICLE_FAIL });
    }
 }
-
 export const resetPublishStatue = () => async dispatch => {
    dispatch({ type: RESET_PUBLISH_STATUS });
 }

@@ -1,4 +1,5 @@
 import {
+   RESET_STATE_FOR_NEW_ARTICLE,
    UPLOAD_FEATURE_IMAGE_LOADING,
    UPLOAD_FEATURE_IMAGE_SUCCESS,
    RESET_PUBLISH_STATUS,
@@ -22,6 +23,8 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
    switch (type) {
+      case RESET_STATE_FOR_NEW_ARTICLE:
+         return initialState;
       case UPLOAD_FEATURE_IMAGE_LOADING:
          return {
             ...state,
