@@ -10,7 +10,7 @@ import './TopStories.css'
 const TopStories = ({ loadPopularArticles, articles }) => {
    useEffect(() => {
       loadPopularArticles();
-   }, [loadPopularArticles]);
+   }, []);
 
    return (
       <Segment>

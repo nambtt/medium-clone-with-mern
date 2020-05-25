@@ -1,32 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import VisibilitySensor from 'react-visibility-sensor'
 import { Item, Placeholder } from 'semantic-ui-react'
-import { loadArticles } from '../../redux/actions/articleActions'
+import { loadArticles, resetArticles } from '../../redux/actions/articleActions'
 import StorySummary from '../StorySummary/StorySummary'
 import './StorySummaryList.css'
 
 
 
-const StorySummaryList = ({ noMore, articles, loadArticles }) => {
+const StorySummaryList = ({ noMore, articles, loadArticles, resetArticles }) => {
 
    const [page, setPage] = useState(1)
 
+   useEffect(() => {
+      return () => {
+         resetArticles();
+      }
+   }, [])
+
    function onScrolledEnd(isVisible) {
       if (!noMore && isVisible) {
-
          loadArticles(page);
          setPage(page + 1);
       }
-
    }
 
    return (
       <Item.Group>
-         {articles.map((article) =>
-            <StorySummary as={Item} key={article._id} article={article} />
+         {articles.map((article, index) =>
+            <StorySummary key={index} as={Item} article={article} />
          )}
-         <Item style={{ display: noMore ? "none" : "" }}>
+         <Item key={"placeholder"} style={{ display: noMore ? "none" : "" }}>
             <Item.Content>
                <Placeholder>
                   <Placeholder.Paragraph>
@@ -34,7 +38,7 @@ const StorySummaryList = ({ noMore, articles, loadArticles }) => {
                      <Placeholder.Line />
                      <Placeholder.Line />
                   </Placeholder.Paragraph>
-                  <Placeholder.Header image circular>
+                  <Placeholder.Header image>
                      <Placeholder.Line />
                   </Placeholder.Header>
                </Placeholder>
@@ -56,4 +60,4 @@ const mapStateToProps = (state) => {
    };
 }
 
-export default connect(mapStateToProps, { loadArticles })(StorySummaryList)
+export default connect(mapStateToProps, { loadArticles, resetArticles })(StorySummaryList)

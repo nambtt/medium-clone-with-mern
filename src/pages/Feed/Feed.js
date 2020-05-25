@@ -1,17 +1,12 @@
-import React, { Component } from 'react'
-
-import Layout from '../../Layout/Layout'
-
-import FeatureAuthor from '../../components/FeatureAuthor/FeatureAuthor'
-
-import { Container } from 'semantic-ui-react'
-import TopStories from '../../components/TopStories/TopStories'
+import React, { Component, createRef } from 'react'
+import { Container, Sticky, Rail, Ref } from 'semantic-ui-react'
 import StorySummaryList from '../../components/StorySummaryList/StorySummaryList'
-
+import TopStories from '../../components/TopStories/TopStories'
+import Layout from '../../Layout/Layout'
 import './Feed.css'
 
 export default class Feed extends Component {
-
+   contextRef = createRef()
    render() {
       return (
          <Layout>
@@ -21,8 +16,13 @@ export default class Feed extends Component {
                      <StorySummaryList />
                   </div>
                   <div className="six wide column">
-                     <FeatureAuthor />
-                     <TopStories />
+                     <Ref innerRef={this.contextRef}>
+                        <Rail style={{ position: "relative", width: "100%" }}>
+                           <Sticky context={this.contextRef}>
+                              <TopStories />
+                           </Sticky>
+                        </Rail>
+                     </Ref>
                   </div>
                </div>
             </Container>

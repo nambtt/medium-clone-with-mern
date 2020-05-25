@@ -2,6 +2,7 @@ import {
    UPLOAD_FEATURE_IMAGE_LOADING,
    UPLOAD_FEATURE_IMAGE_SUCCESS,
    RESET_PUBLISH_STATUS,
+   EDIT_ARTICLE,
    ADD_NEW_ARTICLE_LOADING,
    ADD_NEW_ARTICLE_FAIL,
    ADD_NEW_ARTICLE_SUCCESS,
@@ -15,7 +16,8 @@ const initialState = {
    isErrorPublishingWhileUploadImage: false,
    featureImageUrl: '',
    publishStatus: Object.keys(PublishStatus)[0],
-   articleId: ""
+   articleId: "",
+   editingArticle: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -42,6 +44,13 @@ export default (state = initialState, { type, payload }) => {
          return {
             ...state,
             publishStatus: Object.keys(PublishStatus)[0] // publish
+         }
+      case EDIT_ARTICLE:
+         return {
+            ...state,
+            articleId: payload._id,
+            featureImageUrl: payload.featureImage,
+            editingArticle: payload
          }
       case ADD_NEW_ARTICLE_LOADING:
          return {

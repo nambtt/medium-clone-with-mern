@@ -1,18 +1,21 @@
 import MediumEditor from 'medium-editor';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Placeholder, Segment } from 'semantic-ui-react';
-import { publishArticle, resetPublishStatue, uploadFeatureImage } from '../../redux/actions/articleEditorActions';
+import { loadArticleForEditing, publishArticle, resetPublishStatue, uploadFeatureImage } from '../../redux/actions/articleEditorActions';
 import FlashMessage from '../FlashMessage/FlashMessage';
 import "./../../../node_modules/medium-editor/dist/css/medium-editor.min.css";
 import './Editor.css';
 import EditorHeader from './EditorHeader/EditorHeader';
 
 const Editor = ({
+   loadArticleForEditing,
    publishArticle,
    uploadFeatureImage,
    resetPublishStatue,
 
+   editingArticleId,
+   editingArticle,
    articleId,
    authorId,
    featureImageIsUploading,
@@ -20,6 +23,7 @@ const Editor = ({
    publishStatus }) => {
 
    const fileRef = useRef();
+   let editor = useRef();
 
    const [content, setContent] = useState("");
    const [title, setTitle] = useState("");
@@ -58,33 +62,60 @@ const Editor = ({
       publishArticle({ _id: articleId, title, content, authorId, featureImage: featureImageUrl });
    }
 
-   const editor = new MediumEditor(".editor", {
-      autoLink: true,
-      delay: 1000,
-      targetBlank: true,
-      anchor: {
-         placeholderText: "Type a link",
-         customClassOption: "btn",
-         customClassOptionText: "Create Button",
-      },
-      paste: {
-         cleanPastedHTML: true,
-         cleanAttrs: ["style", "dir"],
-         cleanTags: ["label", "meta"],
-         unwrapTags: ["sub", "sup"],
-      },
-      anchorPreview: {
-         hideDelay: 300,
-      },
-      placeholder: {
-         text: "Tell your story...",
-      },
-   });
+   useEffect(() => {
+      editor.current = new MediumEditor(".app-editor", {
+         autoLink: true,
+         delay: 1000,
+         targetBlank: true,
+         anchor: {
+            placeholderText: "Type a link",
+            customClassOption: "btn",
+            customClassOptionText: "Create Button",
+         },
+         paste: {
+            cleanPastedHTML: true,
+            cleanAttrs: ["style", "dir"],
+            cleanTags: ["label", "meta"],
+            unwrapTags: ["sub", "sup"],
+         },
+         anchorPreview: {
+            hideDelay: 300,
+         },
+         placeholder: {
+            text: "Tell your story...",
+         },
+      });
+      const onChange = () => {
+         resetPublishStatue();
+         setContent(editor.current.getContent(0));
+      }
 
-   editor.subscribe('editableInput', () => {
-      resetPublishStatue();
-      setContent(editor.getContent(0));
-   })
+      editor.current.subscribe('editableInput', onChange)
+      return () => {
+         editor.current.unsubscribe('editableInput', onChange)
+      }
+   }, [])
+
+   useEffect(() => {
+      if (editingArticleId && editingArticleId.length) {
+         loadArticleForEditing(editingArticleId);
+      }
+   }, [editingArticleId, loadArticleForEditing])
+
+   useEffect(() => {
+      if (editingArticle) {
+         function setFocus() {
+            const ele = document.getElementsByClassName('app-editor')[0];
+            editor.current.selectElement(ele)
+            MediumEditor.selection.moveCursor(document, ele)
+         }
+         setTitle(editingArticle.title);
+         setContent(editingArticle.content);
+         editor.current.setContent(editingArticle.content, 0);
+         setFocus();
+
+      }
+   }, [editingArticle])
 
    return (
       <div className="editor-section">
@@ -112,12 +143,12 @@ const Editor = ({
             <Placeholder style={{ height: 150, width: 150, display: (featureImageIsUploading ? "block" : "none") }}>
                <Placeholder.Image />
             </Placeholder>
-            <img src="" alt="" id="image-preview" style={{ display: (featureImageIsUploading ? "none" : "block") }} />
+            <img src={featureImageUrl} alt="" id="image-preview" style={{ display: (featureImageIsUploading ? "none" : "block") }} />
          </div>
 
          {/* Article Content */}
          <Segment className="editor-content">
-            <textarea className="editor" />
+            <textarea className="app-editor" />
          </Segment>
          {<FlashMessage {...errorMessage} />}
       </div>
@@ -130,8 +161,9 @@ const mapStateToProps = (state) => {
       authorId: state.auth.me?.id,
       featureImageUrl: state.articleEditor.featureImageUrl,
       featureImageIsUploading: state.articleEditor.featureImageIsUploading,
-      publishStatus: state.articleEditor.publishStatus
+      publishStatus: state.articleEditor.publishStatus,
+      editingArticle: state.articleEditor.editingArticle
    };
 }
 
-export default connect(mapStateToProps, { publishArticle, uploadFeatureImage, resetPublishStatue })(Editor);
+export default connect(mapStateToProps, { loadArticleForEditing, publishArticle, uploadFeatureImage, resetPublishStatue })(Editor);

@@ -7,7 +7,7 @@ import './StorySummary.css'
 export default ({ article }) => {
    return (
 
-      <Item>
+      <Item key={article._id}>
          <Item.Content>
             <Item.Header as='h2'>
                <Link to={`view-story/${article._id}`}>{article.title}</Link>

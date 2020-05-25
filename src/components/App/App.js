@@ -9,6 +9,8 @@ const Comments = lazy(() => import(/* webpackChunkName: "Comments" */'../../page
 const Feed = lazy(() => import(/* webpackChunkName: "Feed" */'../../pages/Feed/Feed'));
 const NewStory = lazy(() => import(/* webpackChunkName: "NewStory" */'../../pages/NewStory/NewStory'));
 const ViewStory = lazy(() => import(/* webpackChunkName: "ViewStory" */'../../pages/ViewStory/ViewStory'));
+const EditStory = lazy(() => import(/* webpackChunkName: "EditStory" */'../../pages/EditStory/EditStory'));
+const MyStories = lazy(() => import(/* webpackChunkName: "MyStories" */'../../pages/MyStories/MyStories'));
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
 
@@ -35,8 +37,10 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
 				<Suspense fallback={<div>Loading...</div>}>
 					<div>
 						<Route path="/" component={Feed} exact></Route>
+						<Route path="/my-stories/" component={MyStories} exact></Route>
 						<Route path="/new-story" component={NewStory} exact></Route>
 						<Route path="/view-story/:_id" component={ViewStory} exact></Route>
+						<Route path="/edit-story/:_id" component={EditStory} exact></Route>
 						<Route path="/view-story/:_id/comments" component={Comments} exact></Route>
 					</div>
 				</Suspense>

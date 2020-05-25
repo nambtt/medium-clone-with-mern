@@ -4,7 +4,7 @@ const Article = require('../../models/Article')
 const requireJwtAuth = require('../../middlewares/requireJwtAuth')
 const { newArticleSchema } = require('../../services/validators')
 
-const { articleNotFound } = require('../../utils/apiResult')
+const { articleNotFound, accessArticleForbidden } = require('../../utils/apiResult')
 const { sortDescByCreatedAt, getWords } = require('../../utils/utils')
 
 const router = Router();
@@ -19,6 +19,19 @@ router.route('/feed')
          .limit(PAGE_SIZE)
          .populate('author')
          .populate('comments.author').exec(function (err, articles) {
+            if (err)
+               res.send(err);
+            else if (!articles)
+               res.send(400);
+            else
+               res.send(articles);
+         })
+   })
+
+router.route('/me')
+   .get(requireJwtAuth, (req, res, next) => {
+      Article.find({ author: req.user.id })
+         .sort({ createdAt: -1 }).exec(function (err, articles) {
             if (err)
                res.send(err);
             else if (!articles)
@@ -85,8 +98,11 @@ router.route('/')
       if (!dbArticle) {
          return res.status(404).send(articleNotFound(req.body._id));
       }
+      const html = require('cheerio').load(req.body.content);
+      let desc = getWords(html.text());
+
       const { _id, ...updatedFields } = req.body;
-      await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields } });
+      await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields, description: desc } });
       res.send({ _id: req.body._id });
    })
 
@@ -99,6 +115,18 @@ router.route('/:_id')
       }
 
       return res.send(article);
+   })
+   .delete(async (req, res) => {
+      const article = await Article.findById(req.params._id);
+      if (!article) {
+         return res.status(404).send(articleNotFound(req.params._id));
+      }
+      if (article.author !== req.user.id) {
+         return res.status(403).send(accessArticleForbidden(req.params._id));
+      }
+
+      await Article.findByIdAndRemove(req.params._id);
+      res.send({ success: true });
    })
 
 router.route('/:_id/comments')

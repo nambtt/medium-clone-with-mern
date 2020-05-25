@@ -12,6 +12,15 @@ code {
 		monospace;
 }
 
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+.minor-color {
+	color: rgba(0, 0, 0, 0.54);
+}
+
 .link {
 	color: green;
 	text-decoration: underline;

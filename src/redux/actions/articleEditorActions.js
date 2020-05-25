@@ -8,7 +8,8 @@ import {
    ADD_NEW_ARTICLE_FAIL,
    UPLOAD_FEATURE_IMAGE_LOADING,
    UPLOAD_FEATURE_IMAGE_SUCCESS,
-   CANNOT_PUBLISH_WHILE_UPLOADING_IMAGE
+   CANNOT_PUBLISH_WHILE_UPLOADING_IMAGE,
+   EDIT_ARTICLE
 } from '../types'
 
 import { CLOUDINARY_UPLOAD_PRESET } from '../../config/config'
@@ -50,4 +51,11 @@ export const publishArticle = (article) => async (dispatch, getState) => {
 
 export const resetPublishStatue = () => async dispatch => {
    dispatch({ type: RESET_PUBLISH_STATUS });
+}
+export const loadArticleForEditing = (_id) => async (dispatch, getState) => {
+   const options = attachTokenToHeader(getState);
+   const response = await articleApis.get('/articles/' + _id, options);
+   if (response.data) {
+      dispatch({ type: EDIT_ARTICLE, payload: response.data });
+   }
 }

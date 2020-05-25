@@ -27,6 +27,9 @@ const AuthenticationButton = ({ auth, logOut, buttonText }) => {
             <Dropdown.Item key="new-story">
                <Link to="/new-story">New story</Link>
             </Dropdown.Item>
+            <Dropdown.Item key="stories">
+               <Link to="/my-stories">Stories</Link>
+            </Dropdown.Item>
             <Dropdown.Item key="logout" onClick={() => logOut()}>Logout</Dropdown.Item>
          </Dropdown.Menu>
       </Dropdown>

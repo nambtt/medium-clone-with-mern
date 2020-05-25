@@ -4,7 +4,7 @@ import Editor from '../../components/Editor/Editor'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-const AddArticle = ({ auth, requireAuthorization }) => {
+const AddArticle = () => {
 
    return (
       <>
@@ -19,7 +19,6 @@ const AddArticle = ({ auth, requireAuthorization }) => {
 
 const mapStateToProps = (state) => {
    return {
-      auth: state.auth
    }
 }
 
