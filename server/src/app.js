@@ -26,15 +26,9 @@ mongoose.connect(url, {
    .catch(console.log);
 
 // CORS
-const whitelist = process.env.CORS_WHITE_LIST.split(',');
 const corsOptions = {
    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (whitelist.indexOf(origin) !== -1) {
-         callback(null, true)
-      } else {
-         callback(new Error('Not allowed by CORS'))
-      }
+      return callback(null, true);
    }
 }
 
