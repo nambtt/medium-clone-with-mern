@@ -1,0 +1,2 @@
+(this["webpackJsonpmedium-clone-with-mern"]=this["webpackJsonpmedium-clone-with-mern"]||[]).push([[8],{639:function(e,n,t){"use strict";t.r(n);var a=t(0),l=t.n(a),r=t(190),u=t(369),c=t(257),m=t(18);n.default=Object(m.b)((function(e){return{}}),{})((function(){return l.a.createElement(l.a.Fragment,null,l.a.createElement(r.a,null,l.a.createElement(c.a,null,l.a.createElement(u.a,null))))}))}}]);
+//# sourceMappingURL=NewStory.d241763f.chunk.js.map

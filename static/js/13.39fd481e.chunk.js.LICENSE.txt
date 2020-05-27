@@ -1,0 +1,11 @@
+/*!
+        LegoMushroom @legomushroom http://legomushroom.com
+        MIT License 2014
+       */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
