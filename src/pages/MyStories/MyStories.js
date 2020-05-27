@@ -52,6 +52,7 @@ function MyStories({ auth, articles, loadMyArticles, deleteArticle }) {
          <Container>
             <h1>You Stories</h1>
             <div>
+               <div style={{ display: (!articles || !articles.length ? "" : "none") }}>No story found</div>
                <ul>
                   {articles.map(article => {
                      return (

@@ -55,4 +55,9 @@ articleSchema.methods.addComment = async function (comment) {
    await this.save();
 }
 
+articleSchema.methods.claps = async function () {
+   this.clap = (this.clap || 0) + 1;
+   await this.save();
+}
+
 module.exports = mongoose.model('Article', articleSchema);

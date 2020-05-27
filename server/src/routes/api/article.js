@@ -130,6 +130,16 @@ router.route('/:_id')
       res.send({ success: true });
    })
 
+router.route('/:_id/clap')
+   .post(async (req, res) => {
+      let article = await Article.findById(req.params._id);
+      if (!article) {
+         return res.status(404).send(articleNotFound(req.params._id));
+      }
+      await article.claps();
+      res.json({ success: true, article });
+   })
+
 router.route('/:_id/comments')
    .get(async (req, res) => {
       const article = await Article.findById(req.params._id)

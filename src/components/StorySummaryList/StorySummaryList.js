@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import VisibilitySensor from 'react-visibility-sensor'
 import { Item, Placeholder } from 'semantic-ui-react'
-import { loadArticles, resetArticles } from '../../redux/actions/articleActions'
+import { loadArticles, resetArticles, clapArticle } from '../../redux/actions/articleActions'
 import StorySummary from '../StorySummary/StorySummary'
 import './StorySummaryList.css'
 
 
-
-const StorySummaryList = ({ noMore, articles, loadArticles, resetArticles }) => {
+const StorySummaryList = ({ noMore, articles, loadArticles, resetArticles, clapArticle }) => {
 
    const [page, setPage] = useState(1)
 
@@ -28,7 +27,7 @@ const StorySummaryList = ({ noMore, articles, loadArticles, resetArticles }) => 
    return (
       <Item.Group>
          {articles.map((article, index) =>
-            <StorySummary key={index} as={Item} article={article} />
+            <StorySummary key={index} as={Item} article={article} clapArticle={clapArticle} />
          )}
          <Item key={"placeholder"} style={{ display: noMore ? "none" : "" }}>
             <Item.Content>
@@ -60,4 +59,4 @@ const mapStateToProps = (state) => {
    };
 }
 
-export default connect(mapStateToProps, { loadArticles, resetArticles })(StorySummaryList)
+export default connect(mapStateToProps, { loadArticles, resetArticles, clapArticle })(StorySummaryList)

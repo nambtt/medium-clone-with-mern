@@ -7,7 +7,8 @@ import {
    LOAD_ARTICLE_DETAILS_SUCCESS,
    DELETE_ARTICLE_SUCCESS,
    LOAD_MY_ARTICLES,
-   LOAD_MORE_ARTICLES
+   LOAD_MORE_ARTICLES,
+   ARTICLE_CLAP_SUCCESS
 } from '../types'
 import { attachTokenToHeader } from './authActions';
 
@@ -18,7 +19,7 @@ export const loadArticles = (page = 1) => async (dispatch) => {
 }
 
 export const resetArticles = () => async (dispatch) => {
-   dispatch({type: RESET_ARTICLES});
+   dispatch({ type: RESET_ARTICLES });
 }
 
 export const loadPopularArticles = () => async (dispatch) => {
@@ -44,5 +45,12 @@ export const deleteArticle = (_id) => async (dispatch, getState) => {
    const response = await articleApis.delete('articles/' + _id, options);
    if (response.data.success) {
       dispatch({ type: DELETE_ARTICLE_SUCCESS, payload: _id });
+   }
+}
+export const clapArticle = (articleId) => async (dispatch, getState) => {
+   const options = attachTokenToHeader(getState);
+   const response = await articleApis.post(`articles/${articleId}/clap`, options);
+   if (response.data.success) {
+      dispatch({ type: ARTICLE_CLAP_SUCCESS, payload: response.data.article });
    }
 }

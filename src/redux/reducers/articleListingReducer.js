@@ -5,7 +5,8 @@ import {
    LOAD_ARTICLES_POPULAR,
    LOAD_MY_ARTICLES,
    DELETE_ARTICLE_SUCCESS,
-   LOGOUT_SUCCESS
+   LOGOUT_SUCCESS,
+   ARTICLE_CLAP_SUCCESS
 } from '../types'
 const initialState = {
    articles: [],
@@ -44,8 +45,19 @@ export default (state = initialState, { type, payload }) => {
             ...state,
             myArticles: payload
          }
+
+      case ARTICLE_CLAP_SUCCESS:
+         const feedArticles = updateArticleClap(state.articles, payload);
+         const popularArticles = updateArticleClap(state.articles, payload);
+         if (!feedArticles)
+            return state;
+         return {
+            ...state,
+            articles: feedArticles,
+            popularArticles: popularArticles
+         }
       case DELETE_ARTICLE_SUCCESS:
-         const articles = state.myArticles.filter(item => item._id === payload);
+         let articles = state.myArticles.filter(item => item._id === payload);
          if (!articles.length)
             return state;
          const index = state.myArticles.indexOf(articles[0]);
@@ -65,4 +77,14 @@ export default (state = initialState, { type, payload }) => {
       default:
          return state;
    }
+}
+
+function updateArticleClap(list, payload) {
+   const updatedList = [...list];
+   let articles = updatedList.filter(article => article._id === payload._id);
+   if (!articles.length)
+      return null;
+   articles[0].clap = payload.clap;
+
+   return updatedList;
 }

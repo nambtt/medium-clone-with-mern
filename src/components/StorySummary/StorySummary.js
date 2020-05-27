@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { Header, Icon, Image, Item } from 'semantic-ui-react'
 import './StorySummary.css'
 
-
-export default ({ article }) => {
+export default ({ article, clapArticle }) => {
 
    const renderImage = (url) => {
       if (url && url.length)
@@ -26,7 +25,8 @@ export default ({ article }) => {
             <Item.Meta>
                <Header>
                   <Header.Subheader>
-                     <Icon name='like' />{article.clap || 0} Likes
+                     <Icon onClick={() => { clapArticle(article._id) }}
+                        name='like' />{article.clap || 0} Likes
                         <span className="mid-dot-divider"></span>
                      {article.displayedDate}
                   </Header.Subheader>
