@@ -1,5 +1,6 @@
 {
   "name": "medium-clone-with-mern",
+  "homepage": "http://cuteworm.github.io/medium-clone-with-mern",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "server": "npx nodemon server/src/app",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -63,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^2.2.0",
     "nodemon": "^2.0.4"
   }
 }

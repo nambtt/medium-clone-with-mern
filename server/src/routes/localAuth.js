@@ -1,5 +1,4 @@
 const { Router } = require('express')
-const Joi = require('@hapi/joi')
 const faker = require('faker')
 
 const User = require('../models/User')

@@ -77,8 +77,7 @@ userSchema.methods.toJSON = function () {
    }
 }
 
-const isProduction = process.env.NODE_ENV === 'production';
-const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET_DEV;
+const secretOrKey = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : "server_secret";
 
 userSchema.methods.generateJWT = function () {
    const token = jwt.sign({
