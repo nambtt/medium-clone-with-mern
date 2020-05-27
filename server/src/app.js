@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cors = require('cors')
@@ -39,6 +40,7 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(morgan('dev'))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

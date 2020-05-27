@@ -14,17 +14,17 @@ const PAGE_SIZE = 10;
 router.route('/feed')
    .get((req, res, next) => {
       Article.find({})
+         .select(['-__v', '-comments', '-content'])
          .sort({ createdAt: -1 })
          .skip(PAGE_SIZE * ((req.query.page || 1) - 1))
          .limit(PAGE_SIZE)
-         .populate('author')
-         .populate('comments.author').exec(function (err, articles) {
+         .populate({ path: 'author', select: ['name', 'profileImageUrl', 'id'] })
+         .exec(function (err, articles) {
             if (err)
                res.send(err);
-            else if (!articles)
-               res.send(400);
-            else
-               res.send(articles);
+            else {
+               res.send(Article.toRestResult(articles, '/articles'));
+            }
          })
    })
 
@@ -34,42 +34,23 @@ router.route('/me')
          .sort({ createdAt: -1 }).exec(function (err, articles) {
             if (err)
                res.send(err);
-            else if (!articles)
-               res.send(400);
             else
-               res.send(articles);
+               res.send(Article.toRestResult(articles, '/articles'));
          })
    })
 
 router.route('/popular')
    .get((req, res, next) => {
       Article.find({}).sort({ clap: -1 }).limit(4)
-         .populate('author')
-         .populate('comments.author').exec(function (err, articles) {
+         .exec(function (err, articles) {
             if (err)
                res.send(err);
-            else if (!articles)
-               res.send(400);
             else
-               res.send(articles);
+               res.send(Article.toRestResult(articles, '/articles'));
          })
    })
 
 router.route('/')
-   .get((req, res, next) => {
-      Article.find({})
-         .populate('author')
-         .populate('comments.author').exec(function (err, articles) {
-            if (err)
-               res.send(err);
-            else if (!articles)
-               res.send(400);
-            else
-               res.send(articles);
-
-            next();
-         })
-   })
    .post(requireJwtAuth, async (req, res, next) => {
       const { error } = newArticleSchema.validate(req.body);
       if (error) {
@@ -83,12 +64,12 @@ router.route('/')
          title: req.body.title,
          content: req.body.content,
          description: desc,
-         author: req.body.authorId,
+         author: req.user.id,
          featureImage: req.body.featureImage
       });
 
       const newArticle = await article.save();
-      res.send(newArticle);
+      res.status(201).send(Article.toRestResult(newArticle, '/articles'));
    })
    .put(requireJwtAuth, async (req, res, next) => {
       if (req.user.id !== req.body.authorId) {
@@ -103,7 +84,7 @@ router.route('/')
 
       const { _id, ...updatedFields } = req.body;
       await Article.updateOne({ _id: req.body._id }, { $set: { ...updatedFields, description: desc } });
-      res.send({ _id: req.body._id });
+      res.status(201).send({ _id: req.body._id });
    })
 
 router.route('/:_id')
@@ -131,7 +112,7 @@ router.route('/:_id')
    })
 
 router.route('/:_id/clap')
-   .post(async (req, res) => {
+   .patch(async (req, res) => {
       let article = await Article.findById(req.params._id);
       if (!article) {
          return res.status(404).send(articleNotFound(req.params._id));
@@ -170,7 +151,7 @@ router.route('/:_id/comments')
       await article.addComment(comment);
       article = await Article.findById(req.params._id)
          .populate("comments.author", ["_id", "name", "profileImageUrl"]);
-      res.json(article.comments[article.comments.length - 1]);
+      res.status(201).json(article.comments[article.comments.length - 1]);
    })
 
 module.exports = router;

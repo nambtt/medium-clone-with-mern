@@ -15,7 +15,7 @@ import { attachTokenToHeader } from './authActions';
 export const loadArticles = (page = 1) => async (dispatch) => {
    const response = await articleApis.get(`/articles/feed?page=${page}`);
 
-   dispatch({ type: page === 1 ? LOAD_ARTICLES : LOAD_MORE_ARTICLES, payload: response.data });
+   dispatch({ type: page === 1 ? LOAD_ARTICLES : LOAD_MORE_ARTICLES, payload: response.data.articles });
 }
 
 export const resetArticles = () => async (dispatch) => {
@@ -25,7 +25,7 @@ export const resetArticles = () => async (dispatch) => {
 export const loadPopularArticles = () => async (dispatch) => {
    const response = await articleApis.get('/articles/popular');
 
-   dispatch({ type: LOAD_ARTICLES_POPULAR, payload: response.data });
+   dispatch({ type: LOAD_ARTICLES_POPULAR, payload: response.data.articles });
 }
 export const loadArticleDetails = (_id) => async dispatch => {
    const response = await articleApis.get('/articles/' + _id);
@@ -49,7 +49,7 @@ export const deleteArticle = (_id) => async (dispatch, getState) => {
 }
 export const clapArticle = (articleId) => async (dispatch, getState) => {
    const options = attachTokenToHeader(getState);
-   const response = await articleApis.post(`articles/${articleId}/clap`, options);
+   const response = await articleApis.patch(`articles/${articleId}/clap`, options);
    if (response.data.success) {
       dispatch({ type: ARTICLE_CLAP_SUCCESS, payload: response.data.article });
    }
