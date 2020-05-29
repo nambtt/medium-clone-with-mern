@@ -37,7 +37,7 @@ export const loadMyArticles = (_id) => async (dispatch, getState) => {
    const options = attachTokenToHeader(getState);
    const response = await articleApis.get('/articles/me', options);
    if (response.data) {
-      dispatch({ type: LOAD_MY_ARTICLES, payload: response.data });
+      dispatch({ type: LOAD_MY_ARTICLES, payload: response.data.articles });
    }
 }
 export const deleteArticle = (_id) => async (dispatch, getState) => {
